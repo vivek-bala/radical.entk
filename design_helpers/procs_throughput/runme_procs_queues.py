@@ -8,13 +8,14 @@ import shutil
 from Queue import Empty
 from pympler import asizeof
 import psutil
+import traceback
 
 kill_pusher = mp.Event()
 kill_popper = mp.Event()
 
-num_push_procs = 1
-num_pop_procs = 1
-num_queues = 1
+num_push_procs = 4
+num_pop_procs = 4
+num_queues = 4
 
 tasks_pushed = 0
 tasks_popped = 0
@@ -73,7 +74,7 @@ def push_function(q, name):
 
         f = open(DATA + '/%s.txt'%name,'w')
         for ind in range(len(push_times)):
-            f.write('%s %s %s\n'%(push_times[ind],q_len[ind],q_sizes[ind], proc_mem[ind]))
+            f.write('%s %s %s %s\n'%(push_times[ind],q_len[ind],q_sizes[ind], proc_mem[ind]))
             #f.write('%s\n'%(push_times[ind]))
         f.close()
 
@@ -87,10 +88,11 @@ def push_function(q, name):
 
         f = open(DATA + '/%s.txt'%name,'w')
         for ind in range(min(len(push_times),len(q_len),len(q_sizes), len(proc_mem))):
-            f.write('%s %s %s\n'%(push_times[ind],q_len[ind],q_sizes[ind], proc_mem[ind]))
+            f.write('%s %s %s %s\n'%(push_times[ind],q_len[ind],q_sizes[ind], proc_mem[ind]))
         f.close()
 
         print 'Push proc killed'
+        print traceback.format_exc()
 
     except Exception,ex:
 
@@ -98,10 +100,11 @@ def push_function(q, name):
 
         f = open(DATA + '/%s.txt'%name,'w')
         for ind in range(min(len(push_times),len(q_len),len(q_sizes), len(proc_mem))):
-            f.write('%s %s %s\n'%(push_times[ind],q_len[ind],q_sizes[ind], proc_mem[ind]))
+            f.write('%s %s %s %s\n'%(push_times[ind],q_len[ind],q_sizes[ind], proc_mem[ind]))
         f.close()
 
         print 'Unexpected error: %s'%ex
+        print traceback.format_exc()
 
 
 def pop_function(q, name):
@@ -138,7 +141,7 @@ def pop_function(q, name):
         f = open(DATA + '/%s.txt'%name,'w')
 
         for ind in range(len(pop_times)):
-            f.write('%s %s %s\n'%(pop_times[ind],q_len[ind],q_sizes[ind], proc_mem[ind]))
+            f.write('%s %s %s %s\n'%(pop_times[ind],q_len[ind],q_sizes[ind], proc_mem[ind]))
         f.close()
 
         print 'Pop proc killed'
@@ -150,10 +153,11 @@ def pop_function(q, name):
 
         f = open(DATA + '/%s.txt'%name,'w')
         for ind in range(min(len(pop_times),len(q_len),len(q_sizes), len(proc_mem))):
-            f.write('%s %s %s\n'%(pop_times[ind],q_len[ind],q_sizes[ind]), proc_mem[ind])
+            f.write('%s %s %s %s\n'%(pop_times[ind],q_len[ind],q_sizes[ind]), proc_mem[ind])
         f.close()
 
         print 'Pop proc killed'
+        print traceback.format_exc()
 
     except Exception,ex:
 
@@ -161,10 +165,11 @@ def pop_function(q, name):
 
         f = open(DATA + '/%s.txt'%name,'w')
         for ind in range(min(len(pop_times),len(q_len),len(q_sizes), len(proc_mem))):
-            f.write('%s %s %s\n'%(pop_times[ind],q_len[ind],q_sizes[ind]), proc_mem[ind])
+            f.write('%s %s %s %s\n'%(pop_times[ind],q_len[ind],q_sizes[ind]), proc_mem[ind])
         f.close()
 
         print 'Unexpected error: %s'%ex
+        print traceback.format_exc()
 
 
 if __name__ == '__main__':
