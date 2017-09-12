@@ -393,12 +393,20 @@ class TaskManager(object):
 
             self._logger.error('Execution interrupted by user (you probably hit Ctrl+C), '+
                                 'trying to cancel tmgr process gracefully...')
+
+            if self._tmgr_process.is_alive():
+                self._tmgr_terminate.set()
+
             raise KeyboardInterrupt
 
 
         except Exception, ex:
 
+            if self._tmgr_process.is_alive():
+                self._tmgr_terminate.set()
+
             print traceback.format_exc()
+            
             raise Error(text=ex)
 
 

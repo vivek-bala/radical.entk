@@ -41,7 +41,7 @@ class AppManager(object):
 
     def __init__(self, hostname = 'localhost', port = 5672, push_threads=1, pull_threads=1, 
                 sync_threads=1, pending_qs=1, completed_qs=1, reattempts=3,
-                autoterminate=True):
+                autoterminate=True, session_dump=False):
 
         self._uid       = ru.generate_id('radical.entk.appmanager')
         self._logger    = ru.get_logger('radical.entk.appmanager')
@@ -77,6 +77,7 @@ class AppManager(object):
         self._reattempts = reattempts
         self._cur_attempt = 1
         self._resource_autoterminate = autoterminate
+        self._session_dump = session_dump
 
 
         # Logger        
@@ -281,8 +282,8 @@ class AppManager(object):
                 active_pipe_count = len(self._workflow)   
                 finished_pipe_uids = []             
 
-                print 'Active pipes: ',active_pipe_count
-                print 'WFP complete: ', self._wfp.workflow_incomplete()
+                #print 'Active pipes: ',active_pipe_count
+                #print 'WFP complete: ', self._wfp.workflow_incomplete()
 
                 # We wait till all pipelines of the workflow are marked
                 # complete
@@ -298,8 +299,6 @@ class AppManager(object):
                             with pipe._stage_lock:
 
                                 if (pipe.completed) and (pipe.uid not in finished_pipe_uids) :
-
-                                    print '4'
 
                                     self._logger.info('Pipe %s completed'%pipe.uid)
                                     finished_pipe_uids.append(pipe.uid)
@@ -470,6 +469,11 @@ class AppManager(object):
         if self._resource_manager:
 
             self._resource_manager._cancel_resource_request()
+
+
+        if self._session_dump:
+
+            json_file = {}
 
     # ------------------------------------------------------------------------------------------------------------------
     # Private methods
@@ -644,7 +648,7 @@ class AppManager(object):
                                                 if completed_task.path:
                                                     task.path = str(completed_task.path)
 
-                                                print 'Syncing task %s with state %s'%(task.uid, task.state)
+                                                #print 'Syncing task %s with state %s'%(task.uid, task.state)
 
                                                 mq_channel.basic_publish(   exchange='',
                                                                             routing_key=reply_to,
@@ -659,7 +663,7 @@ class AppManager(object):
 
                                                 mq_channel.basic_ack(delivery_tag = method_frame.delivery_tag)
 
-                                                print 'Synced task %s with state %s'%(task.uid, task.state)
+                                                #print 'Synced task %s with state %s'%(task.uid, task.state)
 
 
             def stage_update(msg, reply_to, corr_id, mq_channel):

@@ -1,0 +1,14 @@
+#time,name,uid,state,event,msg
+1504809801.6588,radical.entk.resource_manager.0000:,,,sync abs,js-17-212.jetstream-cloud.org:127.0.0.1:1504809801.66:1504809801.66:sys
+1504809801.6592,radical.entk.resource_manager.0000:MainThread,radical.entk.resource_manager.0000,,create rmgr obj,
+1504809801.6594,radical.entk.resource_manager.0000:MainThread,radical.entk.resource_manager.0000,,validating rdesc,
+1504809801.6594,radical.entk.resource_manager.0000:MainThread,radical.entk.resource_manager.0000,,rdesc validated,
+1504809801.6595,radical.entk.resource_manager.0000:MainThread,radical.entk.resource_manager.0000,,populating rmgr,
+1504809801.6596,radical.entk.resource_manager.0000:MainThread,radical.entk.resource_manager.0000,,rmgr populated,
+1504809801.6596,radical.entk.resource_manager.0000:MainThread,radical.entk.resource_manager.0000,,rmgr obj created,
+1504809802.7969,radical.entk.resource_manager.0000:MainThread,radical.entk.resource_manager.0000,,creating rreq,
+1504809811.6115,radical.entk.resource_manager.0000:MainThread,radical.entk.resource_manager.0000,,rreq created,
+1504809815.1402,radical.entk.resource_manager.0000:MainThread,radical.entk.resource_manager.0000,,rreq submitted,
+1504809906.3620,radical.entk.resource_manager.0000:MainThread,radical.entk.resource_manager.0000,,resource active,
+1504810188.5681,radical.entk.resource_manager.0000:MainThread,radical.entk.resource_manager.0000,,canceling resource allocation,
+1504810248.6327,radical.entk.resource_manager.0000:MainThread,radical.entk.resource_manager.0000,,resource allocation cancelled,
