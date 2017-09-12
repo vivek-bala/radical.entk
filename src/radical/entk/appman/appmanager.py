@@ -17,6 +17,7 @@ import json
 from threading import Thread, Event
 import traceback
 from radical.entk import states
+from radical.entk.utils.entk_session_dump import dump_session
 
 slow_run = os.environ.get('RADICAL_ENTK_SLOW',False)
 
@@ -76,7 +77,7 @@ class AppManager(object):
         self._resubmit_failed = False
         self._reattempts = reattempts
         self._cur_attempt = 1
-        self._resource_autoterminate = autoterminate
+        self._autoterminate = autoterminate
         self._session_dump = session_dump
 
 
@@ -88,6 +89,103 @@ class AppManager(object):
     # ------------------------------------------------------------------------------------------------------------------
     # Getter functions
     # ------------------------------------------------------------------------------------------------------------------
+
+    @property
+    def uid(self):
+
+        """
+        :getter: Return uid
+        """
+
+        return self._uid
+
+    @property
+    def num_pending_qs(self):
+
+        """
+        Number of pending qs between enqueuer and tmgr
+
+        :getter: Return number of pending qs
+        """
+
+        return self._num_pending_qs
+
+    @property
+    def num_completed_qs(self):
+
+        """
+        Number of completed qs between tmgr and dequeuer
+
+        :getter: Return number of pending qs
+        """
+        
+        return self._num_completed_qs
+
+    @property
+    def num_push_threads(self):
+
+        """
+        Number of enqueuer threads to push ready tasks to tmgr
+
+        :getter: Return number of enqueuer threads
+        """
+
+        return self._num_push_threads
+
+    @property
+    def num_pull_threads(self):
+
+        """
+        Number of dequeuer threads to pull completed tasks from tmgr
+
+        :getter: Return number of dequeuer threads
+        """
+        return self._num_pull_threads
+
+    @property
+    def num_sync_threads(self):
+
+        """
+        Number of synchronizer threads to update the Application Manager with all other components
+
+        :getter: Return number of synchronizer threads
+        """
+        return self._num_sync_threads
+
+
+    @property
+    def hostname(self):
+
+        """
+        :getter: Return RabbitMQ hostname used
+        """
+        return self._mq_hostname
+
+    @property
+    def port(self):
+
+        """
+        :getter: Return port at which RabbitMQ is being accessed
+        """
+        return self._port
+
+    @property
+    def reattempts(self):
+
+        """
+        :getter: Return number of acceptable reattempts before shutdown
+        """
+        self._reattempts
+
+    @property
+    def autoterminate(self):
+
+        """
+        :getter: Return if auto terminate is enabled. If enabled, the AppManager will automatically terminate all 
+                threads, processes and resource reservation if all Pipelines are DONE. If not, user has to explicitly
+                terminate.
+        """
+        return self._autoterminate
 
     @property
     def name(self):
@@ -102,18 +200,21 @@ class AppManager(object):
 
         return self._name
 
-    """
+    
     @property
     def resubmit_failed(self):
 
+        """
         
         Enable resubmission of failed tasks
 
         :getter: Returns the value of the resubmission flag
         :setter: Assigns a boolean value for the resubmission flag
+
+        """
         
         return self._resubmit_failed
-    """
+    
 
     @property
     def resource_manager(self):
@@ -391,7 +492,7 @@ class AppManager(object):
                 self._sync_thread.join()
                 self._logger.info('Synchronizer thread terminated')
 
-                if self._resource_autoterminate:
+                if self._autoterminate:
 
                     self._logger.info('Terminating task manager process')
                     self._task_manager.end_manager()
@@ -400,6 +501,14 @@ class AppManager(object):
                     self._resource_manager._cancel_resource_request()
 
                 self._prof.prof('termination done', uid=self._uid)
+
+                if self._session_dump:
+                    dump_session(   workflow=self._workflow, 
+                                    AppManager=self, 
+                                    WFProcessor=self._wfp,
+                                    ResourceManager=self._resource_manager,
+                                    TaskManager=self._task_manager
+                                )
 
 
         except KeyboardInterrupt:
@@ -467,13 +576,8 @@ class AppManager(object):
     def resource_terminate(self):
 
         if self._resource_manager:
+            self._resource_manager._cancel_resource_request()        
 
-            self._resource_manager._cancel_resource_request()
-
-
-        if self._session_dump:
-
-            json_file = {}
 
     # ------------------------------------------------------------------------------------------------------------------
     # Private methods

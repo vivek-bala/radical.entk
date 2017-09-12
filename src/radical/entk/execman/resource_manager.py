@@ -65,6 +65,16 @@ class ResourceManager(object):
     # Getter methods
     # ------------------------------------------------------------------------------------------------------------------
 
+
+    @property
+    def uid(self):
+
+        """
+        :getter: Return uid
+        """
+
+        return self._uid
+
     @property
     def pilot(self):
 

@@ -310,6 +310,35 @@ def get_profiles(src=None):
         raise Exception
 
 
-def get_description():
+def get_description(src=None):
 
-    pass
+    if not src:
+        src = "%s/%s" % (os.getcwd())
+
+
+    if os.path.exists(src):
+        
+        # EnTK profiles are always on localhost
+        json_file  = glob.glob("%s/*.json"   % src)
+
+    else:
+        raise Error(text='%s does not exist'%src)
+
+
+    if len(json_file) == 0:
+        raise Error(text='No profiles found at %s'%src)
+    elif len(json_file) > 1:
+        raise Error(text='More than one json file found at %s'%src)
+
+    json_file = json_file[0]
+
+    try:
+
+        json = ru.read_json(json_file)
+        return json
+
+    except Exception as ex:
+
+        # Push the exception raised by child functions
+        print traceback.format_exc()
+        raise Exception
