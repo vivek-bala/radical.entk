@@ -33,6 +33,8 @@ if __name__ == '__main__':
     # between the state 'ACTIVE' and one of the three final states 'DONE',
     # 'CANCELED', 'FAILED' of all the entities of RP.
     ppheader("Time spent by the pilots being active")
-    pilots = session.filter(etype='Pipeline', inplace=False)
+    pipes = session.filter(etype='Pipeline', inplace=False)
+
+    pipes.get(
     durations = pilots.duration([re.states.SCHEDULING, re.states.DONE])
     pprint.pprint(durations)
