@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
     # or the relations among all the entities of the session:
     ppheader("relations among all the entities of the session")
-    pprint.pprint(session.describe('relations', etype=['pilot', 'unit']))
+    pprint.pprint(session.describe('relations', etype=['AppManager', 'Pipeline']))
 
     # We can restrict the type of entities to describe also for the last two
     # calls:

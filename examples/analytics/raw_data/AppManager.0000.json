@@ -1,7 +1,7 @@
 {
     "session": "AppManager.0000", 
     "tree": {
-        "AppManager": {
+        "AppManager.0000": {
             "cfg": {
                 "autoterminate": true, 
                 "completed_qs": 1, 
@@ -67,7 +67,7 @@
             ], 
             "uid": "Pipeline.0000"
         }, 
-        "ResourceManager": {
+        "ResourceManager.0000": {
             "cfg": {
                 "access_schema": null, 
                 "cores": 2, 
@@ -1837,7 +1837,7 @@
             "has": [], 
             "uid": "Task.0020"
         }, 
-        "TaskManager": {
+        "TaskManager.0000": {
             "cfg": {}, 
             "children": [], 
             "description": {}, 
@@ -1845,7 +1845,7 @@
             "has": [], 
             "uid": "TaskManager.0000"
         }, 
-        "WFProcessor": {
+        "WFProcessor.0000": {
             "cfg": {}, 
             "children": [], 
             "description": {}, 

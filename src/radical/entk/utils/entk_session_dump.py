@@ -13,7 +13,7 @@ def dump_session(workflow, AppManager, WFProcessor, ResourceManager, TaskManager
     json_data['tree'] = dict()
 
     # Add ResourceManager to tree
-    json_data['tree']['ResourceManager'] = {
+    json_data['tree'][ResourceManager.uid] = {
         'cfg': {
             'session': ResourceManager.session.uid,
             'pmgr': ResourceManager.pmgr.uid,
@@ -45,7 +45,7 @@ def dump_session(workflow, AppManager, WFProcessor, ResourceManager, TaskManager
     }
 
     # Add AppManager to tree
-    json_data['tree']['AppManager'] = {
+    json_data['tree'][AppManager.uid] = {
         'cfg': {
             'hostname': AppManager.hostname,
             'port': AppManager.port,
@@ -88,7 +88,7 @@ def dump_session(workflow, AppManager, WFProcessor, ResourceManager, TaskManager
     json_data['tree']['AppManager']['children'].append(TaskManager.uid)
 
     # Add WFProcessor to tree
-    json_data['tree']['WFProcessor'] = {
+    json_data['tree'][WFProcessor.uid] = {
         'cfg': {},
 
         'etype': 'WFProcessor',
@@ -99,7 +99,7 @@ def dump_session(workflow, AppManager, WFProcessor, ResourceManager, TaskManager
     }
 
     # Add TaskManager to tree
-    json_data['tree']['TaskManager'] = {
+    json_data['tree'][TaskManager.uid] = {
         'cfg': {},
         'etype': 'TaskManager',
         'uid': TaskManager.uid,
