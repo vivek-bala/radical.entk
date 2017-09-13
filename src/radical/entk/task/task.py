@@ -13,7 +13,7 @@ class Task(object):
 
     def __init__(self):
 
-        self._uid       = ru.generate_id('radical.entk.task')
+        self._uid       = ru.generate_id('Task')
         self._name      = str()
 
         self._state     = states.INITIAL

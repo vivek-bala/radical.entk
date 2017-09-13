@@ -33,9 +33,9 @@ class WFprocessor(object):
 
     def __init__(self, workflow, pending_queue, completed_queue, mq_hostname, port):
 
-        self._uid           = ru.generate_id('radical.entk.wfprocessor')        
+        self._uid           = ru.generate_id('WFProcessor')        
         self._logger        = ru.get_logger('radical.entk.wfprocessor')
-        self._prof = ru.Profiler(name = self._uid + '-obj')
+        self._prof = ru.Profiler(name = 'radical.entk.%s'%(self._uid + '-obj'))
 
         self._prof.prof('create wfp obj', uid=self._uid)
 
@@ -86,7 +86,7 @@ class WFprocessor(object):
 
         try:
 
-            local_prof = ru.Profiler(name = self._uid + '-proc')
+            local_prof = ru.Profiler(name = 'radical.entk.%s'%(self._uid + '-proc'))
 
             local_prof.prof('wfp process started', uid=self._uid)
 

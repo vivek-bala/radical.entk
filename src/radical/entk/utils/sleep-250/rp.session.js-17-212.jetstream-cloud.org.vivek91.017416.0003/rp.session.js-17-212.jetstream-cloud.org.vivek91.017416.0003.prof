@@ -1,9 +1,0 @@
-#time,name,uid,state,event,msg
-1504809803.9106,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003:,,,sync abs,js-17-212.jetstream-cloud.org:127.0.0.1:1504809803.91:1504809803.91:sys
-1504809803.9108,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003:MainThread,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003,,start session,
-1504809804.0621,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003:MainThread,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003,,configs parsed,
-1504810247.4041,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003:MainThread,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003,,close,
-1504810247.9308,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003:MainThread,pmgr.0000,,closed pmgr,
-1504810248.6287,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003:MainThread,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003,,closing,False
-1504810248.6291,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003:MainThread,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003,,closed,
-1504810248.6291,rp.session.js-17-212.jetstream-cloud.org.vivek91.017416.0003:MainThread,,,END,

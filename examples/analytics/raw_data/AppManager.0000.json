@@ -84,7 +84,7 @@
             "state_values": null
         }
     }, 
-    "session": "radical.entk.appmanager.0000", 
+    "session": "AppManager.0000", 
     "tree": {
         "AppManager": {
             "cfg": {
@@ -99,10 +99,10 @@
                 "sync_threads": 1
             }, 
             "children": [
-                "radical.entk.pipeline.0000", 
-                "radical.entk.wfprocessor.0000", 
-                "radical.entk.resource_manager.0000", 
-                "radical.entk.task_manager.0000"
+                "Pipeline.0000", 
+                "WFProcessor.0000", 
+                "ResourceManager.0000", 
+                "TaskManager.0000"
             ], 
             "description": {
                 "autoterminate": true, 
@@ -122,53 +122,9 @@
                 "ResourceManager", 
                 "TaskManager"
             ], 
-            "uid": "radical.entk.appmanager.0000"
+            "uid": "AppManager.0000"
         }, 
-        "ResourceManager": {
-            "cfg": {
-                "access_schema": null, 
-                "cores": 2, 
-                "pilot": "pilot.0000", 
-                "pmgr": "pmgr.0000", 
-                "project": "", 
-                "queue": null, 
-                "resource": "local.localhost", 
-                "session": "rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013", 
-                "walltime": 10
-            }, 
-            "children": [], 
-            "description": {
-                "access_schema": null, 
-                "cores": 2, 
-                "pilot": "pilot.0000", 
-                "pmgr": "pmgr.0000", 
-                "project": "", 
-                "queue": null, 
-                "resource": "local.localhost", 
-                "session": "rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013", 
-                "walltime": 10
-            }, 
-            "etype": "ResourceManager", 
-            "has": [], 
-            "uid": "radical.entk.resource_manager.0000"
-        }, 
-        "TaskManager": {
-            "cfg": {}, 
-            "children": [], 
-            "description": {}, 
-            "etype": "TaskManager", 
-            "has": [], 
-            "uid": "radical.entk.task_manager.0000"
-        }, 
-        "WFProcessor": {
-            "cfg": {}, 
-            "children": [], 
-            "description": {}, 
-            "etype": "WFProcessor", 
-            "has": [], 
-            "uid": "radical.entk.wfprocessor.0000"
-        }, 
-        "radical.entk.pipeline.0000": {
+        "Pipeline.0000": {
             "cfg": {
                 "stage_count": 3, 
                 "state_history": [
@@ -178,9 +134,9 @@
                 ]
             }, 
             "children": [
-                "radical.entk.stage.0000", 
-                "radical.entk.stage.0001", 
-                "radical.entk.stage.0002"
+                "Stage.0000", 
+                "Stage.0001", 
+                "Stage.0002"
             ], 
             "description": {
                 "stage_count": 3, 
@@ -194,11 +150,39 @@
             "has": [
                 "Stage"
             ], 
-            "uid": "radical.entk.pipeline.0000"
+            "uid": "Pipeline.0000"
         }, 
-        "radical.entk.stage.0000": {
+        "ResourceManager": {
             "cfg": {
-                "parent_pipeline": "radical.entk.pipeline.0000", 
+                "access_schema": null, 
+                "cores": 2, 
+                "pilot": "pilot.0000", 
+                "pmgr": "pmgr.0000", 
+                "project": "", 
+                "queue": null, 
+                "resource": "local.localhost", 
+                "session": "rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011", 
+                "walltime": 10
+            }, 
+            "children": [], 
+            "description": {
+                "access_schema": null, 
+                "cores": 2, 
+                "pilot": "pilot.0000", 
+                "pmgr": "pmgr.0000", 
+                "project": "", 
+                "queue": null, 
+                "resource": "local.localhost", 
+                "session": "rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011", 
+                "walltime": 10
+            }, 
+            "etype": "ResourceManager", 
+            "has": [], 
+            "uid": "ResourceManager.0000"
+        }, 
+        "Stage.0000": {
+            "cfg": {
+                "parent_pipeline": "Pipeline.0000", 
                 "state_history": [
                     "DESCRIBED", 
                     "SCHEDULING", 
@@ -208,10 +192,10 @@
                 "task_count": 1
             }, 
             "children": [
-                "radical.entk.task.0000"
+                "Task.0000"
             ], 
             "description": {
-                "parent_pipeline": "radical.entk.pipeline.0000", 
+                "parent_pipeline": "Pipeline.0000", 
                 "state_history": [
                     "DESCRIBED", 
                     "SCHEDULING", 
@@ -224,11 +208,11 @@
             "has": [
                 "Task"
             ], 
-            "uid": "radical.entk.stage.0000"
+            "uid": "Stage.0000"
         }, 
-        "radical.entk.stage.0001": {
+        "Stage.0001": {
             "cfg": {
-                "parent_pipeline": "radical.entk.pipeline.0000", 
+                "parent_pipeline": "Pipeline.0000", 
                 "state_history": [
                     "DESCRIBED", 
                     "SCHEDULING", 
@@ -238,19 +222,19 @@
                 "task_count": 10
             }, 
             "children": [
-                "radical.entk.task.0010", 
-                "radical.entk.task.0001", 
-                "radical.entk.task.0007", 
-                "radical.entk.task.0003", 
-                "radical.entk.task.0004", 
-                "radical.entk.task.0002", 
-                "radical.entk.task.0005", 
-                "radical.entk.task.0009", 
-                "radical.entk.task.0008", 
-                "radical.entk.task.0006"
+                "Task.0005", 
+                "Task.0010", 
+                "Task.0002", 
+                "Task.0008", 
+                "Task.0001", 
+                "Task.0003", 
+                "Task.0009", 
+                "Task.0004", 
+                "Task.0007", 
+                "Task.0006"
             ], 
             "description": {
-                "parent_pipeline": "radical.entk.pipeline.0000", 
+                "parent_pipeline": "Pipeline.0000", 
                 "state_history": [
                     "DESCRIBED", 
                     "SCHEDULING", 
@@ -263,11 +247,11 @@
             "has": [
                 "Task"
             ], 
-            "uid": "radical.entk.stage.0001"
+            "uid": "Stage.0001"
         }, 
-        "radical.entk.stage.0002": {
+        "Stage.0002": {
             "cfg": {
-                "parent_pipeline": "radical.entk.pipeline.0000", 
+                "parent_pipeline": "Pipeline.0000", 
                 "state_history": [
                     "DESCRIBED", 
                     "SCHEDULING", 
@@ -277,19 +261,19 @@
                 "task_count": 10
             }, 
             "children": [
-                "radical.entk.task.0019", 
-                "radical.entk.task.0014", 
-                "radical.entk.task.0013", 
-                "radical.entk.task.0016", 
-                "radical.entk.task.0017", 
-                "radical.entk.task.0012", 
-                "radical.entk.task.0020", 
-                "radical.entk.task.0018", 
-                "radical.entk.task.0015", 
-                "radical.entk.task.0011"
+                "Task.0018", 
+                "Task.0012", 
+                "Task.0019", 
+                "Task.0013", 
+                "Task.0016", 
+                "Task.0017", 
+                "Task.0014", 
+                "Task.0020", 
+                "Task.0015", 
+                "Task.0011"
             ], 
             "description": {
-                "parent_pipeline": "radical.entk.pipeline.0000", 
+                "parent_pipeline": "Pipeline.0000", 
                 "state_history": [
                     "DESCRIBED", 
                     "SCHEDULING", 
@@ -302,9 +286,9 @@
             "has": [
                 "Task"
             ], 
-            "uid": "radical.entk.stage.0002"
+            "uid": "Stage.0002"
         }, 
-        "radical.entk.task.0000": {
+        "Task.0000": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -321,9 +305,9 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0000", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000000/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0000", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000000/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -356,9 +340,9 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0000", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000000/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0000", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000000/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -376,9 +360,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0000"
+            "uid": "Task.0000"
         }, 
-        "radical.entk.task.0001": {
+        "Task.0001": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -386,7 +370,7 @@
                     "grep -o . output.txt | sort | uniq -c > ccount.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
@@ -397,9 +381,9 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000002/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000005/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -423,7 +407,7 @@
                     "grep -o . output.txt | sort | uniq -c > ccount.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
@@ -434,9 +418,9 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000002/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000005/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -454,9 +438,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0001"
+            "uid": "Task.0001"
         }, 
-        "radical.entk.task.0002": {
+        "Task.0002": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -464,7 +448,7 @@
                     "grep -o . output.txt | sort | uniq -c > ccount.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
@@ -475,87 +459,9 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000006/", 
-                "post_exec": [], 
-                "pre_exec": [], 
-                "state_history": [
-                    "DESCRIBED", 
-                    "SCHEDULING", 
-                    "SCHEDULED", 
-                    "SUBMITTING", 
-                    "SUBMITTED", 
-                    "EXECUTED", 
-                    "DEQUEUEING", 
-                    "DEQUEUED", 
-                    "DONE"
-                ], 
-                "upload_input_data": []
-            }, 
-            "children": [], 
-            "description": {
-                "arguments": [
-                    "-l", 
-                    "-c", 
-                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
-                ], 
-                "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
-                ], 
-                "copy_output_data": [], 
-                "cores": 1, 
-                "download_output_data": [], 
-                "executable": [
-                    "/bin/bash"
-                ], 
-                "exit_code": null, 
-                "link_input_data": [], 
-                "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000006/", 
-                "post_exec": [], 
-                "pre_exec": [], 
-                "state_history": [
-                    "DESCRIBED", 
-                    "SCHEDULING", 
-                    "SCHEDULED", 
-                    "SUBMITTING", 
-                    "SUBMITTED", 
-                    "EXECUTED", 
-                    "DEQUEUEING", 
-                    "DEQUEUED", 
-                    "DONE"
-                ], 
-                "upload_input_data": []
-            }, 
-            "etype": "Task", 
-            "has": [], 
-            "uid": "radical.entk.task.0002"
-        }, 
-        "radical.entk.task.0003": {
-            "cfg": {
-                "arguments": [
-                    "-l", 
-                    "-c", 
-                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
-                ], 
-                "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
-                ], 
-                "copy_output_data": [], 
-                "cores": 1, 
-                "download_output_data": [], 
-                "executable": [
-                    "/bin/bash"
-                ], 
-                "exit_code": null, 
-                "link_input_data": [], 
-                "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000004/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000003/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -579,7 +485,7 @@
                     "grep -o . output.txt | sort | uniq -c > ccount.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
@@ -590,9 +496,9 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000004/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000003/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -610,9 +516,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0003"
+            "uid": "Task.0002"
         }, 
-        "radical.entk.task.0004": {
+        "Task.0003": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -620,7 +526,7 @@
                     "grep -o . output.txt | sort | uniq -c > ccount.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
@@ -631,87 +537,9 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000005/", 
-                "post_exec": [], 
-                "pre_exec": [], 
-                "state_history": [
-                    "DESCRIBED", 
-                    "SCHEDULING", 
-                    "SCHEDULED", 
-                    "SUBMITTING", 
-                    "SUBMITTED", 
-                    "EXECUTED", 
-                    "DEQUEUEING", 
-                    "DEQUEUED", 
-                    "DONE"
-                ], 
-                "upload_input_data": []
-            }, 
-            "children": [], 
-            "description": {
-                "arguments": [
-                    "-l", 
-                    "-c", 
-                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
-                ], 
-                "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
-                ], 
-                "copy_output_data": [], 
-                "cores": 1, 
-                "download_output_data": [], 
-                "executable": [
-                    "/bin/bash"
-                ], 
-                "exit_code": null, 
-                "link_input_data": [], 
-                "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000005/", 
-                "post_exec": [], 
-                "pre_exec": [], 
-                "state_history": [
-                    "DESCRIBED", 
-                    "SCHEDULING", 
-                    "SCHEDULED", 
-                    "SUBMITTING", 
-                    "SUBMITTED", 
-                    "EXECUTED", 
-                    "DEQUEUEING", 
-                    "DEQUEUED", 
-                    "DONE"
-                ], 
-                "upload_input_data": []
-            }, 
-            "etype": "Task", 
-            "has": [], 
-            "uid": "radical.entk.task.0004"
-        }, 
-        "radical.entk.task.0005": {
-            "cfg": {
-                "arguments": [
-                    "-l", 
-                    "-c", 
-                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
-                ], 
-                "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
-                ], 
-                "copy_output_data": [], 
-                "cores": 1, 
-                "download_output_data": [], 
-                "executable": [
-                    "/bin/bash"
-                ], 
-                "exit_code": null, 
-                "link_input_data": [], 
-                "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000007/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000006/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -735,7 +563,7 @@
                     "grep -o . output.txt | sort | uniq -c > ccount.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
@@ -746,9 +574,9 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000007/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000006/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -766,9 +594,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0005"
+            "uid": "Task.0003"
         }, 
-        "radical.entk.task.0006": {
+        "Task.0004": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -776,7 +604,7 @@
                     "grep -o . output.txt | sort | uniq -c > ccount.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
@@ -787,87 +615,9 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000010/", 
-                "post_exec": [], 
-                "pre_exec": [], 
-                "state_history": [
-                    "DESCRIBED", 
-                    "SCHEDULING", 
-                    "SCHEDULED", 
-                    "SUBMITTING", 
-                    "SUBMITTED", 
-                    "EXECUTED", 
-                    "DEQUEUEING", 
-                    "DEQUEUED", 
-                    "DONE"
-                ], 
-                "upload_input_data": []
-            }, 
-            "children": [], 
-            "description": {
-                "arguments": [
-                    "-l", 
-                    "-c", 
-                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
-                ], 
-                "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
-                ], 
-                "copy_output_data": [], 
-                "cores": 1, 
-                "download_output_data": [], 
-                "executable": [
-                    "/bin/bash"
-                ], 
-                "exit_code": null, 
-                "link_input_data": [], 
-                "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000010/", 
-                "post_exec": [], 
-                "pre_exec": [], 
-                "state_history": [
-                    "DESCRIBED", 
-                    "SCHEDULING", 
-                    "SCHEDULED", 
-                    "SUBMITTING", 
-                    "SUBMITTED", 
-                    "EXECUTED", 
-                    "DEQUEUEING", 
-                    "DEQUEUED", 
-                    "DONE"
-                ], 
-                "upload_input_data": []
-            }, 
-            "etype": "Task", 
-            "has": [], 
-            "uid": "radical.entk.task.0006"
-        }, 
-        "radical.entk.task.0007": {
-            "cfg": {
-                "arguments": [
-                    "-l", 
-                    "-c", 
-                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
-                ], 
-                "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
-                ], 
-                "copy_output_data": [], 
-                "cores": 1, 
-                "download_output_data": [], 
-                "executable": [
-                    "/bin/bash"
-                ], 
-                "exit_code": null, 
-                "link_input_data": [], 
-                "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000003/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000008/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -891,7 +641,7 @@
                     "grep -o . output.txt | sort | uniq -c > ccount.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
@@ -902,9 +652,9 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000003/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000008/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -922,9 +672,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0007"
+            "uid": "Task.0004"
         }, 
-        "radical.entk.task.0008": {
+        "Task.0005": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -932,7 +682,7 @@
                     "grep -o . output.txt | sort | uniq -c > ccount.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
@@ -943,87 +693,9 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000009/", 
-                "post_exec": [], 
-                "pre_exec": [], 
-                "state_history": [
-                    "DESCRIBED", 
-                    "SCHEDULING", 
-                    "SCHEDULED", 
-                    "SUBMITTING", 
-                    "SUBMITTED", 
-                    "EXECUTED", 
-                    "DEQUEUEING", 
-                    "DEQUEUED", 
-                    "DONE"
-                ], 
-                "upload_input_data": []
-            }, 
-            "children": [], 
-            "description": {
-                "arguments": [
-                    "-l", 
-                    "-c", 
-                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
-                ], 
-                "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
-                ], 
-                "copy_output_data": [], 
-                "cores": 1, 
-                "download_output_data": [], 
-                "executable": [
-                    "/bin/bash"
-                ], 
-                "exit_code": null, 
-                "link_input_data": [], 
-                "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000009/", 
-                "post_exec": [], 
-                "pre_exec": [], 
-                "state_history": [
-                    "DESCRIBED", 
-                    "SCHEDULING", 
-                    "SCHEDULED", 
-                    "SUBMITTING", 
-                    "SUBMITTED", 
-                    "EXECUTED", 
-                    "DEQUEUEING", 
-                    "DEQUEUED", 
-                    "DONE"
-                ], 
-                "upload_input_data": []
-            }, 
-            "etype": "Task", 
-            "has": [], 
-            "uid": "radical.entk.task.0008"
-        }, 
-        "radical.entk.task.0009": {
-            "cfg": {
-                "arguments": [
-                    "-l", 
-                    "-c", 
-                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
-                ], 
-                "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
-                ], 
-                "copy_output_data": [], 
-                "cores": 1, 
-                "download_output_data": [], 
-                "executable": [
-                    "/bin/bash"
-                ], 
-                "exit_code": null, 
-                "link_input_data": [], 
-                "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000008/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000001/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1047,7 +719,7 @@
                     "grep -o . output.txt | sort | uniq -c > ccount.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
@@ -1058,9 +730,9 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000008/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000001/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1078,9 +750,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0009"
+            "uid": "Task.0005"
         }, 
-        "radical.entk.task.0010": {
+        "Task.0006": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -1088,7 +760,7 @@
                     "grep -o . output.txt | sort | uniq -c > ccount.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
@@ -1099,16 +771,16 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000001/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000010/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
                     "DESCRIBED", 
                     "SCHEDULING", 
-                    "SUBMITTING", 
                     "SCHEDULED", 
+                    "SUBMITTING", 
                     "SUBMITTED", 
                     "EXECUTED", 
                     "DEQUEUEING", 
@@ -1125,7 +797,7 @@
                     "grep -o . output.txt | sort | uniq -c > ccount.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0000_Task_radical.entk.task.0000/output.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
@@ -1136,16 +808,16 @@
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0001", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000001/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000010/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
                     "DESCRIBED", 
                     "SCHEDULING", 
-                    "SUBMITTING", 
                     "SCHEDULED", 
+                    "SUBMITTING", 
                     "SUBMITTED", 
                     "EXECUTED", 
                     "DEQUEUEING", 
@@ -1156,9 +828,321 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0010"
+            "uid": "Task.0006"
         }, 
-        "radical.entk.task.0011": {
+        "Task.0007": {
+            "cfg": {
+                "arguments": [
+                    "-l", 
+                    "-c", 
+                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
+                ], 
+                "copy_input_data": [
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
+                ], 
+                "copy_output_data": [], 
+                "cores": 1, 
+                "download_output_data": [], 
+                "executable": [
+                    "/bin/bash"
+                ], 
+                "exit_code": null, 
+                "link_input_data": [], 
+                "mpi": false, 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000009/", 
+                "post_exec": [], 
+                "pre_exec": [], 
+                "state_history": [
+                    "DESCRIBED", 
+                    "SCHEDULING", 
+                    "SCHEDULED", 
+                    "SUBMITTING", 
+                    "SUBMITTED", 
+                    "EXECUTED", 
+                    "DEQUEUEING", 
+                    "DEQUEUED", 
+                    "DONE"
+                ], 
+                "upload_input_data": []
+            }, 
+            "children": [], 
+            "description": {
+                "arguments": [
+                    "-l", 
+                    "-c", 
+                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
+                ], 
+                "copy_input_data": [
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
+                ], 
+                "copy_output_data": [], 
+                "cores": 1, 
+                "download_output_data": [], 
+                "executable": [
+                    "/bin/bash"
+                ], 
+                "exit_code": null, 
+                "link_input_data": [], 
+                "mpi": false, 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000009/", 
+                "post_exec": [], 
+                "pre_exec": [], 
+                "state_history": [
+                    "DESCRIBED", 
+                    "SCHEDULING", 
+                    "SCHEDULED", 
+                    "SUBMITTING", 
+                    "SUBMITTED", 
+                    "EXECUTED", 
+                    "DEQUEUEING", 
+                    "DEQUEUED", 
+                    "DONE"
+                ], 
+                "upload_input_data": []
+            }, 
+            "etype": "Task", 
+            "has": [], 
+            "uid": "Task.0007"
+        }, 
+        "Task.0008": {
+            "cfg": {
+                "arguments": [
+                    "-l", 
+                    "-c", 
+                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
+                ], 
+                "copy_input_data": [
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
+                ], 
+                "copy_output_data": [], 
+                "cores": 1, 
+                "download_output_data": [], 
+                "executable": [
+                    "/bin/bash"
+                ], 
+                "exit_code": null, 
+                "link_input_data": [], 
+                "mpi": false, 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000004/", 
+                "post_exec": [], 
+                "pre_exec": [], 
+                "state_history": [
+                    "DESCRIBED", 
+                    "SCHEDULING", 
+                    "SCHEDULED", 
+                    "SUBMITTING", 
+                    "SUBMITTED", 
+                    "EXECUTED", 
+                    "DEQUEUEING", 
+                    "DEQUEUED", 
+                    "DONE"
+                ], 
+                "upload_input_data": []
+            }, 
+            "children": [], 
+            "description": {
+                "arguments": [
+                    "-l", 
+                    "-c", 
+                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
+                ], 
+                "copy_input_data": [
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
+                ], 
+                "copy_output_data": [], 
+                "cores": 1, 
+                "download_output_data": [], 
+                "executable": [
+                    "/bin/bash"
+                ], 
+                "exit_code": null, 
+                "link_input_data": [], 
+                "mpi": false, 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000004/", 
+                "post_exec": [], 
+                "pre_exec": [], 
+                "state_history": [
+                    "DESCRIBED", 
+                    "SCHEDULING", 
+                    "SCHEDULED", 
+                    "SUBMITTING", 
+                    "SUBMITTED", 
+                    "EXECUTED", 
+                    "DEQUEUEING", 
+                    "DEQUEUED", 
+                    "DONE"
+                ], 
+                "upload_input_data": []
+            }, 
+            "etype": "Task", 
+            "has": [], 
+            "uid": "Task.0008"
+        }, 
+        "Task.0009": {
+            "cfg": {
+                "arguments": [
+                    "-l", 
+                    "-c", 
+                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
+                ], 
+                "copy_input_data": [
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
+                ], 
+                "copy_output_data": [], 
+                "cores": 1, 
+                "download_output_data": [], 
+                "executable": [
+                    "/bin/bash"
+                ], 
+                "exit_code": null, 
+                "link_input_data": [], 
+                "mpi": false, 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000007/", 
+                "post_exec": [], 
+                "pre_exec": [], 
+                "state_history": [
+                    "DESCRIBED", 
+                    "SCHEDULING", 
+                    "SCHEDULED", 
+                    "SUBMITTING", 
+                    "SUBMITTED", 
+                    "EXECUTED", 
+                    "DEQUEUEING", 
+                    "DEQUEUED", 
+                    "DONE"
+                ], 
+                "upload_input_data": []
+            }, 
+            "children": [], 
+            "description": {
+                "arguments": [
+                    "-l", 
+                    "-c", 
+                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
+                ], 
+                "copy_input_data": [
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
+                ], 
+                "copy_output_data": [], 
+                "cores": 1, 
+                "download_output_data": [], 
+                "executable": [
+                    "/bin/bash"
+                ], 
+                "exit_code": null, 
+                "link_input_data": [], 
+                "mpi": false, 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000007/", 
+                "post_exec": [], 
+                "pre_exec": [], 
+                "state_history": [
+                    "DESCRIBED", 
+                    "SCHEDULING", 
+                    "SCHEDULED", 
+                    "SUBMITTING", 
+                    "SUBMITTED", 
+                    "EXECUTED", 
+                    "DEQUEUEING", 
+                    "DEQUEUED", 
+                    "DONE"
+                ], 
+                "upload_input_data": []
+            }, 
+            "etype": "Task", 
+            "has": [], 
+            "uid": "Task.0009"
+        }, 
+        "Task.0010": {
+            "cfg": {
+                "arguments": [
+                    "-l", 
+                    "-c", 
+                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
+                ], 
+                "copy_input_data": [
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
+                ], 
+                "copy_output_data": [], 
+                "cores": 1, 
+                "download_output_data": [], 
+                "executable": [
+                    "/bin/bash"
+                ], 
+                "exit_code": null, 
+                "link_input_data": [], 
+                "mpi": false, 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000002/", 
+                "post_exec": [], 
+                "pre_exec": [], 
+                "state_history": [
+                    "DESCRIBED", 
+                    "SCHEDULING", 
+                    "SCHEDULED", 
+                    "SUBMITTING", 
+                    "SUBMITTED", 
+                    "EXECUTED", 
+                    "DEQUEUEING", 
+                    "DEQUEUED", 
+                    "DONE"
+                ], 
+                "upload_input_data": []
+            }, 
+            "children": [], 
+            "description": {
+                "arguments": [
+                    "-l", 
+                    "-c", 
+                    "grep -o . output.txt | sort | uniq -c > ccount.txt"
+                ], 
+                "copy_input_data": [
+                    "$Pipline_Pipeline.0000_Stage_Stage.0000_Task_Task.0000/output.txt"
+                ], 
+                "copy_output_data": [], 
+                "cores": 1, 
+                "download_output_data": [], 
+                "executable": [
+                    "/bin/bash"
+                ], 
+                "exit_code": null, 
+                "link_input_data": [], 
+                "mpi": false, 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0001", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000002/", 
+                "post_exec": [], 
+                "pre_exec": [], 
+                "state_history": [
+                    "DESCRIBED", 
+                    "SCHEDULING", 
+                    "SCHEDULED", 
+                    "SUBMITTING", 
+                    "SUBMITTED", 
+                    "EXECUTED", 
+                    "DEQUEUEING", 
+                    "DEQUEUED", 
+                    "DONE"
+                ], 
+                "upload_input_data": []
+            }, 
+            "etype": "Task", 
+            "has": [], 
+            "uid": "Task.0010"
+        }, 
+        "Task.0011": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -1166,22 +1150,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0001/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0001/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_0.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000020/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000020/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1205,22 +1187,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0001/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0001/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_0.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000020/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000020/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1238,9 +1218,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0011"
+            "uid": "Task.0011"
         }, 
-        "radical.entk.task.0012": {
+        "Task.0012": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -1248,22 +1228,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0002/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0002/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_1.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000016/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000012/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1287,22 +1265,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0002/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0002/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_1.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000016/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000012/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1320,9 +1296,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0012"
+            "uid": "Task.0012"
         }, 
-        "radical.entk.task.0013": {
+        "Task.0013": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -1330,22 +1306,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0003/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0003/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_2.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000013/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000014/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1369,22 +1343,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0003/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0003/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_2.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000013/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000014/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1402,9 +1374,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0013"
+            "uid": "Task.0013"
         }, 
-        "radical.entk.task.0014": {
+        "Task.0014": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -1412,22 +1384,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0004/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0004/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_3.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000012/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000017/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1451,22 +1421,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0004/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0004/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_3.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000012/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000017/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1484,9 +1452,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0014"
+            "uid": "Task.0014"
         }, 
-        "radical.entk.task.0015": {
+        "Task.0015": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -1494,22 +1462,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0005/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0005/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_4.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000019/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000019/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1533,22 +1499,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0005/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0005/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_4.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000019/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000019/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1566,9 +1530,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0015"
+            "uid": "Task.0015"
         }, 
-        "radical.entk.task.0016": {
+        "Task.0016": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -1576,22 +1540,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0006/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0006/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_5.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000014/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000015/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1615,22 +1577,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0006/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0006/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_5.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000014/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000015/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1648,9 +1608,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0016"
+            "uid": "Task.0016"
         }, 
-        "radical.entk.task.0017": {
+        "Task.0017": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -1658,22 +1618,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0007/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0007/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_6.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000015/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000016/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1697,22 +1655,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0007/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0007/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_6.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000015/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000016/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1730,9 +1686,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0017"
+            "uid": "Task.0017"
         }, 
-        "radical.entk.task.0018": {
+        "Task.0018": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -1740,22 +1696,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0008/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0008/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_7.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000018/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000011/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1779,22 +1733,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0008/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0008/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_7.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000018/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000011/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1812,9 +1764,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0018"
+            "uid": "Task.0018"
         }, 
-        "radical.entk.task.0019": {
+        "Task.0019": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -1822,22 +1774,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0009/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0009/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_8.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000011/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000013/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1861,22 +1811,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0009/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0009/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_8.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000011/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000013/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1894,9 +1842,9 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0019"
+            "uid": "Task.0019"
         }, 
-        "radical.entk.task.0020": {
+        "Task.0020": {
             "cfg": {
                 "arguments": [
                     "-l", 
@@ -1904,22 +1852,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0010/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0010/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_9.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000017/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000018/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1943,22 +1889,20 @@
                     "sha1sum ccount.txt > chksum.txt"
                 ], 
                 "copy_input_data": [
-                    "$Pipline_radical.entk.pipeline.0000_Stage_radical.entk.stage.0001_Task_radical.entk.task.0010/ccount.txt"
+                    "$Pipline_Pipeline.0000_Stage_Stage.0001_Task_Task.0010/ccount.txt"
                 ], 
                 "copy_output_data": [], 
                 "cores": 1, 
-                "download_output_data": [
-                    "chksum.txt > chksum_9.txt"
-                ], 
+                "download_output_data": [], 
                 "executable": [
                     "/bin/bash"
                 ], 
                 "exit_code": null, 
                 "link_input_data": [], 
                 "mpi": false, 
-                "parent_pipeline": "radical.entk.pipeline.0000", 
-                "parent_stage": "radical.entk.stage.0002", 
-                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017421.0013/pilot.0000/unit.000017/", 
+                "parent_pipeline": "Pipeline.0000", 
+                "parent_stage": "Stage.0002", 
+                "path": "/home/vivek/radical.pilot.sandbox/rp.session.vivek-HP-Pavilion-m6-Notebook-PC.vivek.017422.0011/pilot.0000/unit.000018/", 
                 "post_exec": [], 
                 "pre_exec": [], 
                 "state_history": [
@@ -1976,7 +1920,23 @@
             }, 
             "etype": "Task", 
             "has": [], 
-            "uid": "radical.entk.task.0020"
+            "uid": "Task.0020"
+        }, 
+        "TaskManager": {
+            "cfg": {}, 
+            "children": [], 
+            "description": {}, 
+            "etype": "TaskManager", 
+            "has": [], 
+            "uid": "TaskManager.0000"
+        }, 
+        "WFProcessor": {
+            "cfg": {}, 
+            "children": [], 
+            "description": {}, 
+            "etype": "WFProcessor", 
+            "has": [], 
+            "uid": "WFProcessor.0000"
         }
     }
 }

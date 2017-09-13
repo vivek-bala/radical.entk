@@ -1,0 +1,14 @@
+#time,name,uid,state,event,msg
+1505323721.4805,radical.entk.ResourceManager.0000:,,,sync abs,vivek-HP-Pavilion-m6-Notebook-PC:127.0.0.1:1505323721.45:1505323721.49:ntp
+1505323721.4810,radical.entk.ResourceManager.0000:MainThread,ResourceManager.0000,,create rmgr obj,
+1505323721.4813,radical.entk.ResourceManager.0000:MainThread,ResourceManager.0000,,validating rdesc,
+1505323721.4813,radical.entk.ResourceManager.0000:MainThread,ResourceManager.0000,,rdesc validated,
+1505323721.4815,radical.entk.ResourceManager.0000:MainThread,ResourceManager.0000,,populating rmgr,
+1505323721.4815,radical.entk.ResourceManager.0000:MainThread,ResourceManager.0000,,rmgr populated,
+1505323721.4816,radical.entk.ResourceManager.0000:MainThread,ResourceManager.0000,,rmgr obj created,
+1505323721.7248,radical.entk.ResourceManager.0000:MainThread,ResourceManager.0000,,creating rreq,
+1505323723.5190,radical.entk.ResourceManager.0000:MainThread,ResourceManager.0000,,rreq created,
+1505323724.1466,radical.entk.ResourceManager.0000:MainThread,ResourceManager.0000,,rreq submitted,
+1505323737.5676,radical.entk.ResourceManager.0000:MainThread,ResourceManager.0000,,resource active,
+1505323777.8185,radical.entk.ResourceManager.0000:MainThread,ResourceManager.0000,,canceling resource allocation,
+1505323780.4845,radical.entk.ResourceManager.0000:MainThread,ResourceManager.0000,,resource allocation cancelled,

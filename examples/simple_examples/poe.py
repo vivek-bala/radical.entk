@@ -60,7 +60,7 @@ if __name__ == '__main__':
         # Copy data from the task in the first stage to the current task's location
         t3.copy_input_data = ['$Pipline_%s_Stage_%s_Task_%s/ccount.txt'%(p.uid, s2.uid, s2_task_uids[cnt])]
         # Download the output of the current task to the current location
-        t3.download_output_data = ['chksum.txt > chksum_%s.txt'%cnt]
+        #t3.download_output_data = ['chksum.txt > chksum_%s.txt'%cnt]
 
         # Add the Task to the Stage
         s3.add_tasks(t3)
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     rman = ResourceManager(res_dict)
 
     # Create Application Manager
-    appman = AppManager()
+    appman = AppManager(session_dump=True)
 
     # Assign resource manager to the Application Manager
     appman.resource_manager = rman

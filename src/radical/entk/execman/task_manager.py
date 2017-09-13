@@ -39,9 +39,9 @@ class TaskManager(object):
 
     def __init__(self, pending_queue, completed_queue, rmgr, mq_hostname, port):
 
-        self._uid           = ru.generate_id('radical.entk.task_manager')
+        self._uid           = ru.generate_id('TaskManager')
         self._logger        = ru.get_logger('radical.entk.task_manager')
-        self._prof = ru.Profiler(name = self._uid+'-obj')
+        self._prof = ru.Profiler(name = 'radical.entk.%s'%(self._uid+'-obj'))
 
         self._prof.prof('create tmgr obj', uid=self._uid)
 
@@ -159,7 +159,7 @@ class TaskManager(object):
         
         try:
 
-            local_prof = ru.Profiler(name = self._uid + '-proc')
+            local_prof = ru.Profiler(name = 'radical.entk.%s'%(self._uid + '-proc'))
 
             local_prof.prof('tmgr process started', uid=self._uid)
             logger.info('Task Manager process started') 

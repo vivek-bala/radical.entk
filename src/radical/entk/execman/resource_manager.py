@@ -22,9 +22,9 @@ class ResourceManager(object):
 
     def __init__(self, resource_desc):
 
-        self._uid = ru.generate_id('radical.entk.resource_manager')
+        self._uid = ru.generate_id('ResourceManager')
         self._logger = ru.get_logger('radical.entk.resource_manager')
-        self._prof = ru.Profiler(name = self._uid)
+        self._prof = ru.Profiler(name = 'radical.entk.%s'%self._uid)
 
         self._prof.prof('create rmgr obj', uid=self._uid)
 

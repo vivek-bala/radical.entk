@@ -1,8 +1,0 @@
-#time,name,uid,state,event,msg
-1504809907.4206,radical.entk.wfprocessor.0000-obj:,,,sync abs,js-17-212.jetstream-cloud.org:127.0.0.1:1504809907.42:1504809907.42:sys
-1504809907.4211,radical.entk.wfprocessor.0000-obj:MainThread,radical.entk.wfprocessor.0000,,create wfp obj,
-1504809907.4213,radical.entk.wfprocessor.0000-obj:MainThread,radical.entk.wfprocessor.0000,,wfp obj created,
-1504809907.4217,radical.entk.wfprocessor.0000-obj:MainThread,radical.entk.wfprocessor.0000,,creating wfp process,
-1504809907.4232,radical.entk.wfprocessor.0000-obj:MainThread,radical.entk.wfprocessor.0000,,starting wfp process,
-1504810179.7037,radical.entk.wfprocessor.0000-obj:MainThread,radical.entk.wfprocessor.0000,,wfp process terminated,
-1504810179.7038,radical.entk.wfprocessor.0000-obj:MainThread,,,END,

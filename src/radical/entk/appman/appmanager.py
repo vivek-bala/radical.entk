@@ -1,6 +1,6 @@
-__copyright__   = "Copyright 2017-2018, http://radical.rutgers.edu"
-__author__      = "Vivek Balasubramanian <vivek.balasubramaniana@rutgers.edu>"
-__license__     = "MIT"
+__copyright__ = "Copyright 2017-2018, http://radical.rutgers.edu"
+__author__ = "Vivek Balasubramanian <vivek.balasubramaniana@rutgers.edu>"
+__license__ = "MIT"
 
 import radical.utils as ru
 from radical.entk.exceptions import *
@@ -10,7 +10,9 @@ from radical.entk.task.task import Task
 from radical.entk.execman.resource_manager import ResourceManager
 from radical.entk.execman.task_manager import TaskManager
 from wfprocessor import WFprocessor
-import sys, time, os
+import sys
+import time
+import os
 import Queue
 import pika
 import json
@@ -19,7 +21,7 @@ import traceback
 from radical.entk import states
 from radical.entk.utils.entk_session_dump import dump_session
 
-slow_run = os.environ.get('RADICAL_ENTK_SLOW',False)
+slow_run = os.environ.get('RADICAL_ENTK_SLOW', False)
 
 
 class AppManager(object):
@@ -39,19 +41,17 @@ class AppManager(object):
         :completed_qs: number of queues to hold completed tasks pushed by the task manager
     """
 
+    def __init__(self, hostname='localhost', port=5672, push_threads=1, pull_threads=1,
+                 sync_threads=1, pending_qs=1, completed_qs=1, reattempts=3,
+                 autoterminate=True, session_dump=False):
 
-    def __init__(self, hostname = 'localhost', port = 5672, push_threads=1, pull_threads=1, 
-                sync_threads=1, pending_qs=1, completed_qs=1, reattempts=3,
-                autoterminate=True, session_dump=False):
-
-        self._uid       = ru.generate_id('radical.entk.appmanager')
-        self._logger    = ru.get_logger('radical.entk.appmanager')
-        self._prof      = ru.Profiler(name = self._uid)
+        self._uid = ru.generate_id('AppManager')
+        self._logger = ru.get_logger('radical.entk.appmanager')
+        self._prof = ru.Profiler(name='radical.entk.%s'%self._uid)
 
         self._prof.prof('create amgr obj', uid=self._uid)
 
-        self._name      = str()      
-        
+        self._name = str()
 
         # RabbitMQ Queues
         self._num_pending_qs = pending_qs
@@ -73,15 +73,14 @@ class AppManager(object):
         self._mqs_setup = False
         self._resource_manager = None
         self._task_manager = None
-        self._workflow  = None
+        self._workflow = None
         self._resubmit_failed = False
         self._reattempts = reattempts
         self._cur_attempt = 1
         self._autoterminate = autoterminate
         self._session_dump = session_dump
 
-
-        # Logger        
+        # Logger
         self._logger.info('Application Manager initialized')
 
         self._prof.prof('amgr obj created', uid=self._uid)
@@ -92,7 +91,6 @@ class AppManager(object):
 
     @property
     def uid(self):
-
         """
         :getter: Return uid
         """
@@ -101,7 +99,6 @@ class AppManager(object):
 
     @property
     def num_pending_qs(self):
-
         """
         Number of pending qs between enqueuer and tmgr
 
@@ -112,18 +109,16 @@ class AppManager(object):
 
     @property
     def num_completed_qs(self):
-
         """
         Number of completed qs between tmgr and dequeuer
 
         :getter: Return number of pending qs
         """
-        
+
         return self._num_completed_qs
 
     @property
     def num_push_threads(self):
-
         """
         Number of enqueuer threads to push ready tasks to tmgr
 
@@ -134,7 +129,6 @@ class AppManager(object):
 
     @property
     def num_pull_threads(self):
-
         """
         Number of dequeuer threads to pull completed tasks from tmgr
 
@@ -144,7 +138,6 @@ class AppManager(object):
 
     @property
     def num_sync_threads(self):
-
         """
         Number of synchronizer threads to update the Application Manager with all other components
 
@@ -152,10 +145,8 @@ class AppManager(object):
         """
         return self._num_sync_threads
 
-
     @property
     def hostname(self):
-
         """
         :getter: Return RabbitMQ hostname used
         """
@@ -163,7 +154,6 @@ class AppManager(object):
 
     @property
     def port(self):
-
         """
         :getter: Return port at which RabbitMQ is being accessed
         """
@@ -171,7 +161,6 @@ class AppManager(object):
 
     @property
     def reattempts(self):
-
         """
         :getter: Return number of acceptable reattempts before shutdown
         """
@@ -179,7 +168,6 @@ class AppManager(object):
 
     @property
     def autoterminate(self):
-
         """
         :getter: Return if auto terminate is enabled. If enabled, the AppManager will automatically terminate all 
                 threads, processes and resource reservation if all Pipelines are DONE. If not, user has to explicitly
@@ -189,7 +177,6 @@ class AppManager(object):
 
     @property
     def name(self):
-
         """
         Name for the application manager 
 
@@ -200,25 +187,21 @@ class AppManager(object):
 
         return self._name
 
-    
     @property
     def resubmit_failed(self):
-
         """
-        
+
         Enable resubmission of failed tasks
 
         :getter: Returns the value of the resubmission flag
         :setter: Assigns a boolean value for the resubmission flag
 
         """
-        
+
         return self._resubmit_failed
-    
 
     @property
     def resource_manager(self):
-
         """
         :getter: Returns the resource manager object being used
         :setter: Assigns a resource manager
@@ -239,7 +222,6 @@ class AppManager(object):
         else:
             self._name = value
 
-
     """
     @resubmit_failed.setter
     def resubmit_failed(self, value):
@@ -259,25 +241,23 @@ class AppManager(object):
     # ------------------------------------------------------------------------------------------------------------------
 
     def assign_workflow(self, workflow):
-
         """
         **Purpose**: Assign workflow to the application manager to be executed
 
         :arguments: set of Pipelines
         """
 
-
         try:
-            
+
             self._prof.prof('assigning workflow', uid=self._uid)
             self._workflow = self._validate_workflow(workflow)
             self._logger.info('Workflow assigned to Application Manager')
 
         except KeyboardInterrupt:
 
-            self._logger.error('Execution interrupted by user ' + 
-                        '(you probably hit Ctrl+C), tring to exit gracefully...')
-            
+            self._logger.error('Execution interrupted by user ' +
+                               '(you probably hit Ctrl+C), tring to exit gracefully...')
+
             raise KeyboardInterrupt
 
         except Exception, ex:
@@ -286,9 +266,7 @@ class AppManager(object):
             print traceback.format_exc()
             raise Error(text=ex)
 
-    
     def run(self):
-
         """
         **Purpose**: Run the application manager. Once the workflow and resource manager have been assigned. Invoking this
         method will start the setting up the communication infrastructure, submitting a resource request and then
@@ -298,7 +276,7 @@ class AppManager(object):
         try:
 
             # Set None objects local to each run
-            self._wfp = None            
+            self._wfp = None
             self._sync_thread = None
 
             if not self._workflow:
@@ -306,9 +284,9 @@ class AppManager(object):
                 self._logger.error('No workflow assigned currently, please check your script')
                 raise MissingError(obj=self._uid, missing_attribute='workflow')
 
-
             if not self._resource_manager:
-                self._logger.error('No resource manager assigned currently, please create and add a valid resource manager')
+                self._logger.error(
+                    'No resource manager assigned currently, please create and add a valid resource manager')
                 raise MissingError(obj=self._uid, missing_attribute='resource_manager')
 
             else:
@@ -327,7 +305,6 @@ class AppManager(object):
 
                     self._mqs_setup = True
 
-
                 # Submit resource request if not resource allocation done till now or
                 # resubmit a new one if the old one has completed
                 if self._resource_manager:
@@ -340,9 +317,9 @@ class AppManager(object):
 
                 else:
 
-                    self._logger.error('Cannot run without resource manager, please create and assign a resource manager')
+                    self._logger.error(
+                        'Cannot run without resource manager, please create and assign a resource manager')
                     raise Error(text='Missing resource manager')
-
 
                 # Start synchronizer thread
                 if not self._sync_thread:
@@ -353,38 +330,35 @@ class AppManager(object):
 
                 print self._sync_thread.is_alive()
 
-
                 # Create WFProcessor object
                 self._prof.prof('creating wfp obj', uid=self._uid)
-                self._wfp = WFprocessor(    workflow = self._workflow, 
-                                            pending_queue = self._pending_queue, 
-                                            completed_queue=self._completed_queue,
-                                            mq_hostname=self._mq_hostname,
-                                            port=self._port)
+                self._wfp = WFprocessor(workflow=self._workflow,
+                                        pending_queue=self._pending_queue,
+                                        completed_queue=self._completed_queue,
+                                        mq_hostname=self._mq_hostname,
+                                        port=self._port)
 
-                self._logger.info('Starting WFProcessor process from AppManager')                
-                self._wfp.start_processor()                
-
+                self._logger.info('Starting WFProcessor process from AppManager')
+                self._wfp.start_processor()
 
                 # Create tmgr object only if it does not already exist
                 if not self._task_manager:
                     self._prof.prof('creating tmgr obj', uid=self._uid)
-                    self._task_manager = TaskManager(   pending_queue = self._pending_queue,
-                                                        completed_queue = self._completed_queue,
-                                                        mq_hostname = self._mq_hostname,
-                                                        rmgr = self._resource_manager,
-                                                        port=self._port
-                                                    )
+                    self._task_manager = TaskManager(pending_queue=self._pending_queue,
+                                                     completed_queue=self._completed_queue,
+                                                     mq_hostname=self._mq_hostname,
+                                                     rmgr=self._resource_manager,
+                                                     port=self._port
+                                                     )
                     self._logger.info('Starting task manager process from AppManager')
                     self._task_manager.start_manager()
                     self._task_manager.start_heartbeat()
 
-                
-                active_pipe_count = len(self._workflow)   
-                finished_pipe_uids = []             
+                active_pipe_count = len(self._workflow)
+                finished_pipe_uids = []
 
-                #print 'Active pipes: ',active_pipe_count
-                #print 'WFP complete: ', self._wfp.workflow_incomplete()
+                # print 'Active pipes: ',active_pipe_count
+                # print 'WFP complete: ', self._wfp.workflow_incomplete()
 
                 # We wait till all pipelines of the workflow are marked
                 # complete
@@ -399,28 +373,24 @@ class AppManager(object):
 
                             with pipe._stage_lock:
 
-                                if (pipe.completed) and (pipe.uid not in finished_pipe_uids) :
+                                if (pipe.completed) and (pipe.uid not in finished_pipe_uids):
 
-                                    self._logger.info('Pipe %s completed'%pipe.uid)
+                                    self._logger.info('Pipe %s completed' % pipe.uid)
                                     finished_pipe_uids.append(pipe.uid)
                                     active_pipe_count -= 1
-                                    self._logger.info('Active pipes: %s'%active_pipe_count)
+                                    self._logger.info('Active pipes: %s' % active_pipe_count)
 
+                    if (not self._sync_thread.is_alive()) and (self._cur_attempt <= self._reattempts):
 
-                    if (not self._sync_thread.is_alive()) and (self._cur_attempt<=self._reattempts):
-
-                        
-
-                        self._sync_thread = Thread(   target=self._synchronizer, 
-                                                name='synchronizer-thread')
+                        self._sync_thread = Thread(target=self._synchronizer,
+                                                   name='synchronizer-thread')
                         self._logger.info('Restarting synchronizer thread')
                         self._prof.prof('restarting synchronizer', uid=self._uid)
                         self._sync_thread.start()
 
                         self._cur_attempt += 1
 
-                    
-                    if (not self._wfp.check_alive()) and (self._cur_attempt<=self._reattempts):
+                    if (not self._wfp.check_alive()) and (self._cur_attempt <= self._reattempts):
 
                         """
                         If WFP dies, both child threads are also cleaned out.
@@ -429,18 +399,18 @@ class AppManager(object):
                         """
 
                         self._prof.prof('recreating wfp obj', uid=self._uid)
-                        self._wfp = WFProcessor(  workflow = self._workflow, 
-                                            pending_queue = self._pending_queue, 
-                                            completed_queue=self._completed_queue,
-                                            mq_hostname=self._mq_hostname,
-                                            port=self._port)
+                        self._wfp = WFProcessor(workflow=self._workflow,
+                                                pending_queue=self._pending_queue,
+                                                completed_queue=self._completed_queue,
+                                                mq_hostname=self._mq_hostname,
+                                                port=self._port)
 
-                        self._logger.info('Restarting WFProcessor process from AppManager')                        
+                        self._logger.info('Restarting WFProcessor process from AppManager')
                         self._wfp.start_processor()
 
                         self._cur_attempt += 1
 
-                    if (not self._task_manager.check_alive()) and (self._cur_attempt<=self._reattempts):
+                    if (not self._task_manager.check_alive()) and (self._cur_attempt <= self._reattempts):
 
                         """
                         If the tmgr process dies, we simply start a new process
@@ -459,8 +429,7 @@ class AppManager(object):
 
                         self._cur_attempt += 1
 
-
-                    if (not self._task_manager.check_heartbeat()) and (self._cur_attempt<=self._reattempts):
+                    if (not self._task_manager.check_heartbeat()) and (self._cur_attempt <= self._reattempts):
 
                         """
                         If the heartbeat thread dies, we simply start a new thread
@@ -479,13 +448,12 @@ class AppManager(object):
                         self._task_manager.start_heartbeat()
 
                         self._cur_attempt += 1
-                    
+
                 self._prof.prof('start termination', uid=self._uid)
-                    
+
                 # Terminate threads in following order: wfp, helper, synchronizer
                 self._logger.info('Terminating WFprocessor')
-                self._wfp.end_processor()                                      
-                
+                self._wfp.end_processor()
 
                 self._logger.info('Terminating synchronizer thread')
                 self._end_sync.set()
@@ -503,20 +471,20 @@ class AppManager(object):
                 self._prof.prof('termination done', uid=self._uid)
 
                 if self._session_dump:
-                    dump_session(   workflow=self._workflow, 
-                                    AppManager=self, 
-                                    WFProcessor=self._wfp,
-                                    ResourceManager=self._resource_manager,
-                                    TaskManager=self._task_manager
-                                )
-
+                    self._logger.info('Dumping session')
+                    dump_session(workflow=self._workflow,
+                                 AppManager=self,
+                                 WFProcessor=self._wfp,
+                                 ResourceManager=self._resource_manager,
+                                 TaskManager=self._task_manager
+                                 )
 
         except KeyboardInterrupt:
 
             self._prof.prof('start termination', uid=self._uid)
 
-            self._logger.error('Execution interrupted by user (you probably hit Ctrl+C), '+
-                                'trying to cancel enqueuer thread gracefully...')
+            self._logger.error('Execution interrupted by user (you probably hit Ctrl+C), ' +
+                               'trying to cancel enqueuer thread gracefully...')
 
             # Terminate threads in following order: wfp, helper, synchronizer
             if self._wfp:
@@ -527,7 +495,7 @@ class AppManager(object):
                 self._logger.info('Terminating task manager process')
                 self._task_manager.end_manager()
                 self._task_manager.end_heartbeat()
-                
+
             if self._sync_thread:
                 self._logger.info('Terminating synchronizer thread')
                 self._end_sync.set()
@@ -549,7 +517,7 @@ class AppManager(object):
 
             print traceback.format_exc()
 
-            ## Terminate threads in following order: wfp, helper, synchronizer
+            # Terminate threads in following order: wfp, helper, synchronizer
             if self._wfp:
                 self._logger.info('Terminating WFprocessor')
                 self._wfp.end_processor()
@@ -569,22 +537,19 @@ class AppManager(object):
                 self._resource_manager._cancel_resource_request()
 
             self._prof.prof('termination done', uid=self._uid)
-            
-            raise Error(text=ex)
 
+            raise Error(text=ex)
 
     def resource_terminate(self):
 
         if self._resource_manager:
-            self._resource_manager._cancel_resource_request()        
-
+            self._resource_manager._cancel_resource_request()
 
     # ------------------------------------------------------------------------------------------------------------------
     # Private methods
     # ------------------------------------------------------------------------------------------------------------------
 
     def _validate_workflow(self, workflow):
-
         """
         **Purpose**: Validate whether the workflow consists of a set of Pipelines and validate each Pipeline. 
 
@@ -606,7 +571,7 @@ class AppManager(object):
             for item in workflow:
                 if not isinstance(item, Pipeline):
                     self._logger.info('workflow type incorrect')
-                    raise TypeError(expected_type=['Pipeline', 'set of Pipeline'], 
+                    raise TypeError(expected_type=['Pipeline', 'set of Pipeline'],
                                     actual_type=type(item))
 
                 item._validate()
@@ -617,12 +582,10 @@ class AppManager(object):
 
         except Exception, ex:
 
-            self._logger.error('Fatal error while adding workflow to appmanager: %s'%ex)
+            self._logger.error('Fatal error while adding workflow to appmanager: %s' % ex)
             raise
 
-
     def _setup_mqs(self):
-
         """
         **Purpose**: Setup RabbitMQ system on the client side. We instantiate queue(s) 'pendingq-*' for communication 
         between the enqueuer thread and the task manager process. We instantiate queue(s) 'completedq-*' for
@@ -643,32 +606,30 @@ class AppManager(object):
             self._logger.debug('Setting up mq connection and channel')
 
             self._mq_connection = pika.BlockingConnection(
-                                    pika.ConnectionParameters(host=self._mq_hostname, port=self._port),
-                                    )
+                pika.ConnectionParameters(host=self._mq_hostname, port=self._port),
+            )
             self._mq_channel = self._mq_connection.channel()
 
             self._logger.debug('Connection and channel setup successful')
 
             self._logger.debug('Setting up all exchanges and queues')
 
-            for i in range(1,self._num_pending_qs+1):
-                queue_name = 'pendingq-%s'%i
+            for i in range(1, self._num_pending_qs + 1):
+                queue_name = 'pendingq-%s' % i
                 self._pending_queue.append(queue_name)
                 self._mq_channel.queue_delete(queue=queue_name)
                 # Durable Qs will not be lost if rabbitmq server crashes
-                self._mq_channel.queue_declare(queue=queue_name, durable=True) 
-                                                
+                self._mq_channel.queue_declare(queue=queue_name, durable=True)
 
-            for i in range(1,self._num_completed_qs+1):
-                queue_name = 'completedq-%s'%i
+            for i in range(1, self._num_completed_qs + 1):
+                queue_name = 'completedq-%s' % i
                 self._completed_queue.append(queue_name)
                 self._mq_channel.queue_delete(queue=queue_name)
                 # Durable Qs will not be lost if rabbitmq server crashes
                 self._mq_channel.queue_declare(queue=queue_name, durable=True)
-                                                
 
-            #self._mq_channel.queue_delete(queue='sync-to-master')
-            #self._mq_channel.queue_declare(queue='sync-to-master')
+            # self._mq_channel.queue_delete(queue='sync-to-master')
+            # self._mq_channel.queue_declare(queue='sync-to-master')
 
             # Queues to send messages from the threads/procs to master
             self._mq_channel.queue_delete(queue='tmgr-to-sync')
@@ -689,8 +650,7 @@ class AppManager(object):
             self._mq_channel.queue_declare(queue='sync-to-enq')
             self._mq_channel.queue_delete(queue='sync-to-deq')
             self._mq_channel.queue_declare(queue='sync-to-deq')
-                            # Durable Qs will not be lost if rabbitmq server crashes
-
+            # Durable Qs will not be lost if rabbitmq server crashes
 
             self._logger.debug('All exchanges and queues are setup')
             self._prof.prof('mqs setup done', uid=self._uid)
@@ -699,12 +659,10 @@ class AppManager(object):
 
         except Exception, ex:
 
-            self._logger.error('Error setting RabbitMQ system: %s' %ex)
-            raise 
-
+            self._logger.error('Error setting RabbitMQ system: %s' % ex)
+            raise
 
     def _synchronizer(self):
-
         """
         **Purpose**: Thread in the master process to keep the workflow data 
         structure in appmanager up to date. We receive pipelines, stages and 
@@ -723,12 +681,11 @@ class AppManager(object):
 
             self._logger.info('synchronizer thread started')
 
-
             def task_update(msg, reply_to, corr_id, mq_channel):
 
                 completed_task = Task()
                 completed_task.from_dict(msg['object'])
-                self._logger.info('Received %s with state %s'%(completed_task.uid, completed_task.state))
+                self._logger.info('Received %s with state %s' % (completed_task.uid, completed_task.state))
 
                 # Traverse the entire workflow to find the correct task
                 for pipe in self._workflow:
@@ -737,7 +694,7 @@ class AppManager(object):
 
                         if not pipe.completed:
                             if completed_task._parent_pipeline == pipe.uid:
-                                
+
                                 for stage in pipe.stages:
 
                                     if completed_task._parent_stage == stage.uid:
@@ -745,36 +702,36 @@ class AppManager(object):
                                         for task in stage.tasks:
 
                                             if (completed_task.uid == task.uid)and(completed_task.state != task.state):
-                                                        
+
                                                 task.state = str(completed_task.state)
-                                                self._logger.debug('Found task %s with state %s'%(task.uid, task.state))
+                                                self._logger.debug('Found task %s with state %s' %
+                                                                   (task.uid, task.state))
 
                                                 if completed_task.path:
                                                     task.path = str(completed_task.path)
 
-                                                #print 'Syncing task %s with state %s'%(task.uid, task.state)
+                                                # print 'Syncing task %s with state %s'%(task.uid, task.state)
 
-                                                mq_channel.basic_publish(   exchange='',
-                                                                            routing_key=reply_to,
-                                                                            properties=pika.BasicProperties(
-                                                                                correlation_id = corr_id),
-                                                                            body='%s-ack'%task.uid)
+                                                mq_channel.basic_publish(exchange='',
+                                                                         routing_key=reply_to,
+                                                                         properties=pika.BasicProperties(
+                                                                             correlation_id=corr_id),
+                                                                         body='%s-ack' % task.uid)
 
-                                                self._prof.prof('publishing sync ack for obj with state %s'%
-                                                                                    msg['object']['state'], 
-                                                                                    uid=msg['object']['uid']
-                                                                                )
+                                                self._prof.prof('publishing sync ack for obj with state %s' %
+                                                                msg['object']['state'],
+                                                                uid=msg['object']['uid']
+                                                                )
 
-                                                mq_channel.basic_ack(delivery_tag = method_frame.delivery_tag)
+                                                mq_channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 
-                                                #print 'Synced task %s with state %s'%(task.uid, task.state)
-
+                                                # print 'Synced task %s with state %s'%(task.uid, task.state)
 
             def stage_update(msg, reply_to, corr_id, mq_channel):
 
                 completed_stage = Stage()
                 completed_stage.from_dict(msg['object'])
-                self._logger.info('Received %s with state %s'%(completed_stage.uid, completed_stage.state))
+                self._logger.info('Received %s with state %s' % (completed_stage.uid, completed_stage.state))
 
                 # Traverse the entire workflow to find the correct stage
                 for pipe in self._workflow:
@@ -783,37 +740,35 @@ class AppManager(object):
 
                         if not pipe.completed:
                             if completed_stage._parent_pipeline == pipe.uid:
-                                self._logger.info('Found parent pipeline: %s'%pipe.uid)
-                                
+                                self._logger.info('Found parent pipeline: %s' % pipe.uid)
+
                                 for stage in pipe.stages:
 
-                                    if (completed_stage.uid == stage.uid)and(completed_stage.state != stage.state):              
+                                    if (completed_stage.uid == stage.uid)and(completed_stage.state != stage.state):
 
-                                        self._logger.debug('Found stage %s'%stage.uid)
+                                        self._logger.debug('Found stage %s' % stage.uid)
 
                                         stage.state = str(completed_stage.state)
 
-                                        mq_channel.basic_publish(   exchange='',
-                                                                    routing_key=reply_to,
-                                                                    properties=pika.BasicProperties(
-                                                                        correlation_id = corr_id),
-                                                                    body='%s-ack'%stage.uid)
+                                        mq_channel.basic_publish(exchange='',
+                                                                 routing_key=reply_to,
+                                                                 properties=pika.BasicProperties(
+                                                                     correlation_id=corr_id),
+                                                                 body='%s-ack' % stage.uid)
 
+                                        self._prof.prof('publishing sync ack for obj with state %s' %
+                                                        msg['object']['state'],
+                                                        uid=msg['object']['uid']
+                                                        )
 
-                                        self._prof.prof('publishing sync ack for obj with state %s'%
-                                                                                msg['object']['state'], 
-                                                                                uid=msg['object']['uid']
-                                                                            )
-
-                                        mq_channel.basic_ack(delivery_tag = method_frame.delivery_tag)
-
+                                        mq_channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 
             def pipeline_update(msg, reply_to, corr_id, mq_channel):
 
                 completed_pipeline = Pipeline()
                 completed_pipeline.from_dict(msg['object'])
 
-                self._logger.info('Received %s with state %s'%(completed_pipeline.uid, completed_pipeline.state))
+                self._logger.info('Received %s with state %s' % (completed_pipeline.uid, completed_pipeline.state))
 
                 # Traverse the entire workflow to find the correct pipeline
                 for pipe in self._workflow:
@@ -829,33 +784,29 @@ class AppManager(object):
                                 if completed_pipeline.completed:
                                     pipe._completed_flag.set()
 
-                                self._logger.info('Found pipeline %s, state %s, completed %s'%( pipe.uid, 
-                                                                                                        pipe.state, 
-                                                                                                        pipe.completed)
-                                                                                                    )
+                                self._logger.info('Found pipeline %s, state %s, completed %s' % (pipe.uid,
+                                                                                                 pipe.state,
+                                                                                                 pipe.completed)
+                                                  )
 
                                 # Reply with ack msg to the sender
-                                mq_channel.basic_publish(   exchange='',
-                                                            routing_key=reply_to,
-                                                            properties=pika.BasicProperties(
-                                                                    correlation_id = corr_id),
-                                                            body='%s-ack'%pipe.uid)
+                                mq_channel.basic_publish(exchange='',
+                                                         routing_key=reply_to,
+                                                         properties=pika.BasicProperties(
+                                                             correlation_id=corr_id),
+                                                         body='%s-ack' % pipe.uid)
 
-                                self._prof.prof('publishing sync ack for obj with state %s'%
-                                                                            msg['object']['state'], 
-                                                                            uid=msg['object']['uid']
-                                                                        )
+                                self._prof.prof('publishing sync ack for obj with state %s' %
+                                                msg['object']['state'],
+                                                uid=msg['object']['uid']
+                                                )
 
-
-                                mq_channel.basic_ack(delivery_tag = method_frame.delivery_tag)
-
-
+                                mq_channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 
             mq_connection = pika.BlockingConnection(pika.ConnectionParameters(host=self._mq_hostname, port=self._port))
             mq_channel = mq_connection.channel()
 
             while not self._end_sync.is_set():
-
 
                 #-------------------------------------------------------------------------------------------------------
                 # Messages between tmgr Main thread and synchronizer -- only Task objects
@@ -869,19 +820,19 @@ class AppManager(object):
                         'type': 'Pipeline'/'Stage'/'Task',
                         'object': json/dict
                         }
-                """                
+                """
 
                 if body:
 
                     msg = json.loads(body)
 
-                    self._prof.prof('received obj with state %s for sync'%msg['object']['state'], uid=msg['object']['uid'])
+                    self._prof.prof('received obj with state %s for sync' %
+                                    msg['object']['state'], uid=msg['object']['uid'])
 
-                    if msg['type'] == 'Task':                        
+                    if msg['type'] == 'Task':
                         task_update(msg, 'sync-to-tmgr', props.correlation_id, mq_channel)
 
                 #-------------------------------------------------------------------------------------------------------
-
 
                 #-------------------------------------------------------------------------------------------------------
                 # Messages between callback thread and synchronizer -- only Task objects
@@ -895,19 +846,19 @@ class AppManager(object):
                         'type': 'Pipeline'/'Stage'/'Task',
                         'object': json/dict
                         }
-                """                
+                """
 
                 if body:
 
                     msg = json.loads(body)
 
-                    self._prof.prof('received obj with state %s for sync'%msg['object']['state'], uid=msg['object']['uid'])
+                    self._prof.prof('received obj with state %s for sync' %
+                                    msg['object']['state'], uid=msg['object']['uid'])
 
-                    if msg['type'] == 'Task':                        
+                    if msg['type'] == 'Task':
                         task_update(msg, 'sync-to-cb', props.correlation_id, mq_channel)
 
                 #-------------------------------------------------------------------------------------------------------
-
 
                 #-------------------------------------------------------------------------------------------------------
                 # Messages between enqueue thread and synchronizer -- Task, Stage or Pipeline
@@ -917,9 +868,10 @@ class AppManager(object):
 
                     msg = json.loads(body)
 
-                    self._prof.prof('received obj with state %s for sync'%msg['object']['state'], uid=msg['object']['uid'])
+                    self._prof.prof('received obj with state %s for sync' %
+                                    msg['object']['state'], uid=msg['object']['uid'])
 
-                    if msg['type'] == 'Task':                        
+                    if msg['type'] == 'Task':
                         task_update(msg, 'sync-to-enq', props.correlation_id, mq_channel)
 
                     elif msg['type'] == 'Stage':
@@ -929,7 +881,6 @@ class AppManager(object):
                         pipeline_update(msg, 'sync-to-enq', props.correlation_id, mq_channel)
                 #-------------------------------------------------------------------------------------------------------
 
-
                 #-------------------------------------------------------------------------------------------------------
                 # Messages between dequeue thread and synchronizer -- Task, Stage or Pipeline
                 method_frame, props, body = mq_channel.basic_get(queue='deq-to-sync')
@@ -938,9 +889,10 @@ class AppManager(object):
 
                     msg = json.loads(body)
 
-                    self._prof.prof('received obj with state %s for sync'%msg['object']['state'], uid=msg['object']['uid'])
+                    self._prof.prof('received obj with state %s for sync' %
+                                    msg['object']['state'], uid=msg['object']['uid'])
 
-                    if msg['type'] == 'Task':                        
+                    if msg['type'] == 'Task':
                         task_update(msg, 'sync-to-deq', props.correlation_id, mq_channel)
 
                     elif msg['type'] == 'Stage':
@@ -950,24 +902,21 @@ class AppManager(object):
                         pipeline_update(msg, 'sync-to-deq', props.correlation_id, mq_channel)
                 #-------------------------------------------------------------------------------------------------------
 
-
             self._prof.prof('terminating synchronizer', uid=self._uid)
 
         except KeyboardInterrupt:
 
-            self._logger.error('Execution interrupted by user (you probably hit Ctrl+C), '+
-                                'trying to terminate synchronizer thread gracefully...')
+            self._logger.error('Execution interrupted by user (you probably hit Ctrl+C), ' +
+                               'trying to terminate synchronizer thread gracefully...')
 
             self._end_sync.set()
             raise KeyboardInterrupt
 
-
-
         except Exception, ex:
 
-            self._logger.error('Unknown error in synchronizer: %s. \n Terminating thread'%ex)
+            self._logger.error('Unknown error in synchronizer: %s. \n Terminating thread' % ex)
             print traceback.format_exc()
             self._end_sync.set()
-            raise Error(text=ex)  
+            raise Error(text=ex)
 
     # ------------------------------------------------------------------------------------------------------------------

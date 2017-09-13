@@ -13,7 +13,7 @@ class Stage(object):
 
     def __init__(self):
 
-        self._uid       = ru.generate_id('radical.entk.stage')
+        self._uid       = ru.generate_id('Stage')
         self._tasks     = set()
         self._name      = str()
 

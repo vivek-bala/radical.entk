@@ -7,10 +7,12 @@ import threading
 
 import radical.utils as ru
 
-#from radical.entk.exceptions import *
+from radical.entk.exceptions import *
 import traceback
 import socket
 
+# ------------------------------------------------------------------------------
+#
 def read_profiles(profiles):
     """
     We read all profiles as CSV files and parse them.  For each profile,
@@ -38,6 +40,9 @@ def read_profiles(profiles):
 
     return ret
 
+
+# ------------------------------------------------------------------------------
+#
 def combine_profiles(profs):
     """
     We merge all profiles and sorted by time.
@@ -166,20 +171,22 @@ def combine_profiles(profs):
     # sort by time and return
     p_glob = sorted(p_glob[:], key=lambda k: k['time']) 
 
-    # for event in p_glob:
-    #     if event['event'] == 'advance' and event['uid'] == os.environ.get('FILTER'):
-    #         print '#=- ', event
+  # for event in p_glob:
+  #     if event['event'] == 'advance' and event['uid'] == os.environ.get('FILTER'):
+  #         print '#=- ', event
 
 
-    # if unsynced:
-    #     # FIXME: https://github.com/radical-cybertools/radical.analytics/issues/20 
-    #     # print 'unsynced hosts: %s' % list(unsynced)
-    #     pass
+  # if unsynced:
+  #     # FIXME: https://github.com/radical-cybertools/radical.analytics/issues/20 
+  #     # print 'unsynced hosts: %s' % list(unsynced)
+  #     pass
 
     return [p_glob, accuracy, hostmap]
 
 
-def clean_profile(profile, sid=None):
+# ------------------------------------------------------------------------------
+# 
+def clean_profile(profile, sid):
     """
     This method will prepare a profile for consumption in radical.analytics.  It
     performs the following actions:
@@ -274,7 +281,7 @@ def clean_profile(profile, sid=None):
     return ret
 
 
-def get_profiles(src=None):
+def get_profile(src=None):
 
     if not src:
         src = "%s/%s" % (os.getcwd())
@@ -296,10 +303,9 @@ def get_profiles(src=None):
         profiles = read_profiles(profiles)
         prof, acc, hostmap = combine_profiles(profiles)
 
-        if not hostmap:
-            hostmap = socket.gethostname()
+        hostmap = dict()        
 
-        prof = clean_profile(prof)
+        prof = clean_profile(prof, sid='radical.entk')
 
         return prof, acc, hostmap
 
@@ -307,7 +313,7 @@ def get_profiles(src=None):
 
         # Push the exception raised by child functions
         print traceback.format_exc()
-        raise Exception
+        raise Error(text=ex)
 
 
 def get_description(src=None):
@@ -317,9 +323,10 @@ def get_description(src=None):
 
 
     if os.path.exists(src):
-        
+        json_file = list()
         # EnTK profiles are always on localhost
-        json_file  = glob.glob("%s/*.json"   % src)
+        json_file.extend(glob.glob("%s/App*.json"   % src))
+        json_file.extend(glob.glob("%s/../App*.json"   % src))
 
     else:
         raise Error(text='%s does not exist'%src)
@@ -341,4 +348,4 @@ def get_description(src=None):
 
         # Push the exception raised by child functions
         print traceback.format_exc()
-        raise Exception
+        raise Error(text=ex)

@@ -305,4 +305,4 @@ def dump_session(workflow, AppManager, WFProcessor, ResourceManager, TaskManager
                 }
 
 
-    ru.write_json(json_data,'%s/%s.json' % (os.getcwd(), AppManager.uid.replace('AppManager', '')))
+    ru.write_json(json_data,'%s/%s.json' % (os.getcwd(), AppManager.uid))
