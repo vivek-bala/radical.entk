@@ -8,7 +8,7 @@ def ppheader(message):
 
 if __name__ == '__main__':
 
-    session = ra.Session(stype='radical.entk',src='/home/vivek/Research/repos/radical.entk-0.6/examples/analytics/raw_data/')
+    session = ra.Session(stype='radical.entk',src='raw_data/')
 
     # and here we go. Session.describe() can be used to print the entities state
     # models, the entities runtime event models, and the state values. The state
