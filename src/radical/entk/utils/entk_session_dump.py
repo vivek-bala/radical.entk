@@ -1,116 +1,6 @@
 import radical.utils as ru
 import os, json
 
-def create_entities(json_data):
-
-    # Create entities
-    json_data['entities'] = dict()
-
-    # Create AppManager
-    json_data['entities']['AppManager'] = {
-        'event_model': None,
-        'state_model': None,
-        'state_values': None
-    }
-
-    # Create WFProcessor
-    json_data['entities']['WFProcessor'] = {
-        'event_model': None,
-        'state_model': None,
-        'state_values': None
-    }
-
-    # Create ResourceManager
-    json_data['entities']['ResourceManager'] = {
-        'event_model': None,
-        'state_model': None,
-        'state_values': None
-    }
-
-    # Create TaskManager
-    json_data['entities']['TaskManager'] = {
-        'event_model': None,
-        'state_model': None,
-        'state_values': None
-    }
-
-    # Create Pipeline
-    json_data['entities']['Pipeline'] = {
-        'event_model': None,
-        'state_model': {
-            'DESCRIBED': 1,
-            'SCHEDULING': 2,
-            'DONE': 11,
-            'FAILED': 11,
-            'CANCELED': 11
-        },
-        'state_values': {
-            1: 'DESCRIBED',
-            2: 'SCHEDULING',
-            11: 'DONE',
-            11: 'FAILED',
-            11: 'CANCELED'
-        }
-    }
-
-    # Create Stage
-    json_data['entities']['Stage'] = {
-        'event_model': None,
-        'state_model': {
-            'DESCRIBED': 1,
-            'SCHEDULING': 2,
-            'SCHEDULED': 3,
-            'DONE': 11,
-            'FAILED': 11,
-            'CANCELED': 11
-        },
-        'state_values': {
-            1: 'DESCRIBED',
-            2: 'SCHEDULING',
-            3: 'SCHEDULED',
-            11: 'DONE',
-            11: 'FAILED',
-            11: 'CANCELED'
-        }
-    }
-
-    # Create Task
-    json_data['entities']['Task'] = {
-        'event_model': None,
-        'state_model': {
-            'DESCRIBED': 1,
-            'SCHEDULING': 2,
-            'SCHEDULED': 3,
-            'SUBMITTING': 4,
-            'SUBMITTED': 5,
-            'COMPLETED': 6,
-            'DEQUEUEING': 7,
-            'DEQUEUED': 8,
-            'SYNCHRONIZING': 9,
-            'SYNCHRONIZED': 10,
-            'DONE': 11,
-            'FAILED': 11,
-            'CANCELED': 11
-        },
-        'state_values': {
-            1: 'DESCRIBED',
-            2: 'SCHEDULING',
-            3: 'SCHEDULED',
-            4: 'SUBMITTING',
-            5: 'SUBMITTED',
-            6: 'COMPLETED',
-            7: 'DEQUEUEING',
-            8: 'DEQUEUED',
-            9: 'SYNCHRONIZING',
-            10: 'SYNCHRONIZED',
-            11: 'DONE',
-            11: 'FAILED',
-            11: 'CANCELED'
-        }
-    }
-
-    return json_data
-
 
 def dump_session(workflow, AppManager, WFProcessor, ResourceManager, TaskManager):
 
@@ -118,9 +8,6 @@ def dump_session(workflow, AppManager, WFProcessor, ResourceManager, TaskManager
 
     # Add RP session being used
     json_data['session'] = AppManager.uid
-
-    # Create default entities
-    json_data = create_entities(json_data)
 
     # Create the tree!
     json_data['tree'] = dict()
