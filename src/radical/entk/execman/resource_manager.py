@@ -16,7 +16,10 @@ class ResourceManager(object):
 
     :arguments: 
         :resource_desc: dictionary with details of the resource request + access credentials of the user 
-        :example: resource_desc = {  'resource': 'xsede.stampede', 'walltime': 120, 'cores': 64, 'project: 'TG-abcxyz'}
+        :example: resource_desc = { 'resource': 'xsede.stampede', 
+                                    'walltime': 120, 
+                                    'cpus': 64,
+                                    project: 'TG-abcxyz'}
 
     """
 
@@ -35,7 +38,8 @@ class ResourceManager(object):
         self._pilot         = None
         self._resource      = None
         self._walltime      = None
-        self._cores         = None
+        self._cpus         = None
+        self._gpus          = None
         self._project       = None
         self._access_schema = None
         self._queue         = None
@@ -106,12 +110,21 @@ class ResourceManager(object):
         return self._walltime
 
     @property
-    def cores(self):
+    def cpus(self):
 
         """
-        :getter: Return user specified number of cores
+        :getter: Return user specified number of cpus
         """
-        return self._cores
+        return self._cpus
+
+
+    @property
+    def gpus(self):
+
+        """
+        :getter: Return user specified number of gpus
+        """
+        return self._gpus
 
     @property
     def project(self):
@@ -209,32 +222,46 @@ class ResourceManager(object):
 
             expected_keys = [   'resource',
                                 'walltime',
-                                'cores',
+                                'cpus',
                                 'project'
+                            ]
+
+            optional_keys = [
+                                'gpus',
+                                'access_schema',
+                                'queue'
                             ]
 
             for key in expected_keys:
                 if key not in resource_desc:
-                    raise Error(text='Key %s does not exist in the resource description'%key)
+                    raise Error(text='Mandatory key %s does not exist in the resource description'%key)
 
-            if not isinstance(resource_desc['resource'],str):
+            for key in resource_desc.keys():
+                if key not in expected_keys and key not in optional_keys:
+                    raise Error(text="Unknown key %s specified in resource description"%key)
+
+            if not (isinstance(resource_desc['resource'],str) or isinstance(resource_desc['resource'],unicode)):
                 raise TypeError(expected_type=str, actual_type=type(resource_desc['resource']))
 
             if not isinstance(resource_desc['walltime'], int):
                 raise TypeError(expected_type=int, actual_type=type(resource_desc['walltime']))
 
-            if not isinstance(resource_desc['cores'], int):
-                raise TypeError(expected_type=int, actual_type=type(resource_desc['cores']))
+            if not isinstance(resource_desc['cpus'], int):
+                raise TypeError(expected_type=int, actual_type=type(resource_desc['cpus']))
 
-            if not isinstance(resource_desc['project'],str):
+            if not (isinstance(resource_desc['resource'],str) or isinstance(resource_desc['resource'],unicode)):
                 raise TypeError(expected_type=str, actual_type=type(resource_desc['project']))            
 
+            if 'gpus' in resource_desc:
+                if not isinstance(resource_desc['gpus'], int):
+                    raise TypeError(expected_type=int, actual_type=type(resource_desc['gpus']))
+
             if 'access_schema' in resource_desc:
-                if not isinstance(resource_desc['access_schema'], str):
+                if not (isinstance(resource_desc['resource'],str) or isinstance(resource_desc['resource'],unicode)):
                     raise TypeError(expected_type=str, actual_type=type(resource_desc['access_schema']))
 
             if 'queue' in resource_desc:
-                if not isinstance(resource_desc['queue'], str):
+                if not (isinstance(resource_desc['resource'],str) or isinstance(resource_desc['resource'],unicode)):
                     raise TypeError(expected_type=str, actual_type=type(resource_desc['queue']))
 
             self._prof.prof('rdesc validated', uid=self._uid)
@@ -257,16 +284,19 @@ class ResourceManager(object):
 
             self._prof.prof('populating rmgr', uid=self._uid)
 
-            self._resource = resource_desc['resource']
+            self._resource = str(resource_desc['resource'])
             self._walltime = resource_desc['walltime']
-            self._cores = resource_desc['cores']
-            self._project = resource_desc['project']
+            self._cpus = resource_desc['cpus']
+            self._project = str(resource_desc['project'])
+
+            if 'gpus' in resource_desc:
+                self._gpus = resource_desc['gpus']
 
             if 'access_schema' in resource_desc:
-                self._access_schema = resource_desc['access_schema']
+                self._access_schema = str(resource_desc['access_schema'])
 
             if 'queue' in resource_desc:
-                self._queue = resource_desc['queue']
+                self._queue = str(resource_desc['queue'])
 
             self._logger.debug('Resource manager population successful')
 
@@ -303,9 +333,12 @@ class ResourceManager(object):
             pd_init = {
                     'resource'  : self._resource,
                     'runtime'   : self._walltime,
-                    'cores'     : self._cores,
+                    'cores'     : self._cpus,
                     'project'   : self._project,
                     }
+
+            if self._gpus:
+                pd_init['gpus'] = self._gpus
     
             if self._access_schema:
                 pd_init['access_schema'] = self._access_schema
@@ -338,7 +371,7 @@ class ResourceManager(object):
             self._logger.info('Resource request submission successful.. waiting for pilot to go Active')
     
             # Wait for pilot to go active
-            self._pilot.wait([rp.ACTIVE, rp.FAILED])
+            self._pilot.wait([rp.ACTIVE, rp.FAILED, rp.CANCELED])
 
             if self._pilot.state == rp.FAILED:
                 raise Exception
@@ -346,8 +379,6 @@ class ResourceManager(object):
             self._prof.prof('resource active', uid=self._uid) 
 
             self._logger.info('Pilot is now active')
-
-            return self._pilot
 
         except KeyboardInterrupt:
 
