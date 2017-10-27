@@ -96,6 +96,7 @@ class TaskManager(object):
                                                         )
 
             channel = self._mq_connection.channel()
+
             channel.queue_delete(queue='heartbeat-req')
             channel.queue_declare(queue='heartbeat-req')
             response = True
