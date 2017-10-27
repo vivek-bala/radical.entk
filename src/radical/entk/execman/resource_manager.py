@@ -49,8 +49,8 @@ class ResourceManager(object):
             self._logger.error('Could not validate resource description')
             raise
 
-
-        self._mlab_url = os.environ.get('RADICAL_PILOT_DBURL',None)
+        self._mlab_url = os.environ.get('RADICAL_PILOT_DBURL')
+        
         if not self._mlab_url:
             raise Error(text='RADICAL_PILOT_DBURL not defined. Please assign a valid mlab url')
 
@@ -257,16 +257,15 @@ class ResourceManager(object):
 
             self._prof.prof('populating rmgr', uid=self._uid)
 
+            # Mandatory arguments
             self._resource = resource_desc['resource']
             self._walltime = resource_desc['walltime']
             self._cores = resource_desc['cores']
             self._project = resource_desc['project']
 
-            if 'access_schema' in resource_desc:
-                self._access_schema = resource_desc['access_schema']
-
-            if 'queue' in resource_desc:
-                self._queue = resource_desc['queue']
+            # Optional arguments
+            self._access_schema = resource_desc.get('access_schema')
+            self._queue = resource_desc.get('queue')
 
             self._logger.debug('Resource manager population successful')
 

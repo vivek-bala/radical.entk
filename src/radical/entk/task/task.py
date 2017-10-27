@@ -33,7 +33,17 @@ class Task(object):
         self._copy_output_data      = list()
         self._download_output_data  = list()
 
+
+        # Once the tasks are submitted for execution, the RTS assigns the
+        # executable units (CUs) a path on the remote machine. This path needs to be
+        # captured in the Task object as well.
         self._path = None
+
+
+        # The RTS captures the exit code upon completion of the executable
+        # unit (CU). This exit code needs to be captured in the Task object as
+        # well. This allows the user to make decisions based on the exit 
+        # code.
         self._exit_code = None
 
         # Keep track of states attained

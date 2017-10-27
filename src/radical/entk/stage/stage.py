@@ -22,8 +22,8 @@ class Stage(object):
         # Keep track of states attained
         self._state_history = [states.INITIAL]
 
-        # To change states
-        self._task_count = len(self._tasks)
+        # Count of number of tasks held by this Stage
+        self._task_count = 0
 
         # Pipeline this stage belongs to
         self._p_pipeline = None    
@@ -100,6 +100,10 @@ class Stage(object):
 
         return self._state_history
 
+    @property
+    def task_count(self):
+        return len(self._tasks)
+
 
     # ------------------------------------------------------------------------------------------------------------------
     # Setter functions
@@ -111,12 +115,6 @@ class Stage(object):
             self._name = value
         else:
             raise TypeError(expected_type=str, actual_type=type(value))
-        
-
-    @tasks.setter
-    def tasks(self, tasks):        
-        self._tasks = self._validate_tasks(tasks)
-        self._task_count = len(self._tasks)
 
     @_parent_pipeline.setter
     def _parent_pipeline(self, value):
@@ -148,7 +146,6 @@ class Stage(object):
 
         tasks = self._validate_tasks(tasks)
         self._tasks.update(tasks)
-        self._task_count = len(self._tasks)
         
 
 
@@ -186,7 +183,6 @@ class Stage(object):
 
             if len(self._tasks) != len(copy_of_existing_tasks):
                 self._tasks = copy_of_existing_tasks
-                self._task_count = len(self._tasks)
 
         except Exception, ex:
             raise Error(text=ex)

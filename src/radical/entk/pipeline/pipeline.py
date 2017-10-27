@@ -26,10 +26,13 @@ class Pipeline(object):
         self._state_history = [states.INITIAL]
 
         # To keep track of current state
-        self._stage_count = len(self._stages)
+        self._stage_count = 0
         self._cur_stage = 0
 
-        # Lock around current stage
+        # This lock needs to be acquired by any subcomponents (processes/threads)
+        # that want to read or write to an instance of this object. This lock 
+        # ensures that ONLY ONE subcomponent has read or write access to an
+        # instance of a Pipeline object
         self._lock = threading.Lock()
 
         # To keep track of termination of pipeline
@@ -131,6 +134,11 @@ class Pipeline(object):
 
         return self._state_history
 
+
+    @property
+    def stage_count(self):
+        return len(self._stages)
+
     # ------------------------------------------------------------------------------------------------------------------
     # Setter functions
     # ------------------------------------------------------------------------------------------------------------------
@@ -142,20 +150,6 @@ class Pipeline(object):
 
         else:
             raise TypeError(expected_type=str, actual_type=type(value))
-
-    @stages.setter
-    def stages(self, stages):
-            
-        self._stages = self._validate_stages(stages)
-
-        try:
-            self._pass_uid()
-            self._stage_count = len(self._stages)
-            if self._cur_stage == 0:
-                self._cur_stage = 1
-
-        except Exception, ex:
-            raise Error(text=ex)
 
 
     @state.setter
@@ -172,6 +166,11 @@ class Pipeline(object):
 
     def add_stages(self, stages):
 
+        # Backward compatibility
+        self.append_stages(stages)
+
+    def append_stages(self, stages):
+
         """        
         Appends stages to the current Pipeline
 
@@ -182,7 +181,6 @@ class Pipeline(object):
         try:
             stages = self._pass_uid(stages)
             self._stages.extend(stages)
-            self._stage_count = len(self._stages)
             if self._cur_stage == 0:
                 self._cur_stage = 1
 
@@ -340,7 +338,7 @@ class Pipeline(object):
 
         try:
 
-            if self._cur_stage < self._stage_count:
+            if self._cur_stage < self.stage_count():
                 self._cur_stage+=1
             else:
                 self._completed_flag.set()
