@@ -16,17 +16,19 @@ SUBMITTING      = 'SUBMITTING'
 SUBMITTED       = 'SUBMITTED'
 COMPLETED       = 'EXECUTED'
 DEQUEUEING      = 'DEQUEUEING'
-DEQUEUED        = 'DEQUEUED'        # Dequeue thread will have this state
-SYNCHRONIZING   = 'SYNCHRONIZING'
-SYNCHRONIZED    = 'SYNCHRONIZED'    # Syncrhonizer thread will have this state
+DEQUEUED        = 'DEQUEUED'        
+
 
 # common states - Pipeline, Stage, Task
 DONE            = 'DONE'
 FAILED          = 'FAILED'
-CANCELED        = 'CANCELED'
+TERMINATED      = 'TERMINATED'
+
+# common states - Pipeline, Stage
+SKIPPED         = 'SKIPPED'
 
 # shortcut
-FINAL = [DONE, FAILED, CANCELED]
+FINAL = [DONE, FAILED, TERMINATED]
 
 
 ## Assign numeric values to states
@@ -40,11 +42,10 @@ state_numbers = {
     COMPLETED       : 6,
     DEQUEUEING      : 7,
     DEQUEUED        : 8,
-    SYNCHRONIZING   : 9,
-    SYNCHRONIZED    : 10,
-    DONE            : 11,
-    FAILED          : 11,
-    CANCELED        : 11
+    DONE            : 9,
+    FAILED          : 9,
+    TERMINATED      : 9,
+    SKIPPED         : 10
 }
 
 ## Get back string values from numeric values for states

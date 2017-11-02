@@ -35,6 +35,12 @@ class Pipeline(object):
         # To keep track of termination of pipeline
         self._completed_flag = threading.Event()    
 
+        # Available post exec options
+        self._post_exec_options = ['terminate-all']
+
+        # User selected post exec operation
+        self._post_exec = None
+
     # ------------------------------------------------------------------------------------------------------------------
     # Getter functions
     # ------------------------------------------------------------------------------------------------------------------
@@ -131,6 +137,10 @@ class Pipeline(object):
 
         return self._state_history
 
+    @property
+    def post_exec(self):
+        return self._post_exec
+
     # ------------------------------------------------------------------------------------------------------------------
     # Setter functions
     # ------------------------------------------------------------------------------------------------------------------
@@ -165,6 +175,29 @@ class Pipeline(object):
             self._state_history.append(value)
         else:
             raise TypeError(expected_type=str, actual_type=type(value)) 
+
+    @post_exec.setter
+    def post_exec(self, func_name):
+
+        if isinstance(func_name, str):
+            if func_name in self._post_exec_options:
+                self._post_exec = func_name
+            else:
+                ValueError( obj=self._uid, 
+                            attribute='post_exec',
+                            expected_value=self._post_exec_options,
+                            actual_value=func_name
+                        )
+        else:
+            raise TypeError(expected_type=str, actual_type=type(func_name))             
+
+        
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Post-exec methods
+    # ------------------------------------------------------------------------------------------------------------------
+
+
 
     # ------------------------------------------------------------------------------------------------------------------
     # Public methods

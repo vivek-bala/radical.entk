@@ -480,86 +480,64 @@ class WFprocessor(object):
                                                         if (task.state == states.FAILED) and (self._resubmit_failed):
                                                             task.state = states.INITIAL
 
-                                                        transition( obj=task, 
-                                                                obj_type = 'Task', 
-                                                                new_state = task.state, 
-                                                                channel = mq_channel,
-                                                                queue = 'deq-to-sync',
-                                                                profiler=local_prof, 
-                                                                logger=self._logger)
+                                                            transition( obj=task, 
+                                                                    obj_type = 'Task', 
+                                                                    new_state = task.state, 
+                                                                    channel = mq_channel,
+                                                                    queue = 'deq-to-sync',
+                                                                    profiler=local_prof, 
+                                                                    logger=self._logger)
 
-                                                        if stage._check_stage_complete():
+                                                        else:
 
-                                                            transition( obj=stage, 
-                                                                        obj_type = 'Stage', 
-                                                                        new_state = states.DONE, 
-                                                                        channel = mq_channel,
-                                                                        queue = 'deq-to-sync',
-                                                                        profiler=local_prof, 
-                                                                        logger=self._logger)
+                                                            # Task is done or failed but we can proceed without
+                                                            # resubmitting
 
-                                                            pipe._increment_stage()
+                                                            transition( obj=task, 
+                                                                    obj_type = 'Task', 
+                                                                    new_state = task.state, 
+                                                                    channel = mq_channel,
+                                                                    queue = 'deq-to-sync',
+                                                                    profiler=local_prof, 
+                                                                    logger=self._logger)
 
-                                                            if pipe.completed:
-                                                                        
-                                                                transition( obj=pipe, 
-                                                                            obj_type = 'Pipeline', 
+                                                            if stage._check_stage_complete():
+
+                                                                transition( obj=stage, 
+                                                                            obj_type = 'Stage', 
                                                                             new_state = states.DONE, 
                                                                             channel = mq_channel,
                                                                             queue = 'deq-to-sync',
                                                                             profiler=local_prof, 
                                                                             logger=self._logger)
 
-                                                                try:
+                                                                ## Check if Stage has a post-exec that needs to be
+                                                                ## executed
+
+                                                                if stage.post_exec:
+
+                                                                    ## Do post exec shit
+                                                                    pass
+
+
+                                                                else:
+
                                                                     pipe._increment_stage()
 
-                                                                    if pipe.completed:
-                                                                        
+                                                                    if pipe.completed:                                                                        
+
                                                                         transition( obj=pipe, 
                                                                                     obj_type = 'Pipeline', 
                                                                                     new_state = states.DONE, 
                                                                                     channel = mq_channel,
                                                                                     queue = 'deq-to-sync',
                                                                                     profiler=local_prof, 
-                                                                                    logger=self._logger)
-                                                                    
-                                                                except:
-                                                                    pipe._decrement_stage()
+                                                                                    logger=self._logger)  
 
-                                                        elif task.state == states.FAILED:
+                                                                        if pipe.post_exec:
 
-                                                            if not self._resubmit_failed:
-                                                                
-                                                                if stage._check_stage_complete():
-                                                                    
-                                                                    transition( obj=stage, 
-                                                                                obj_type = 'Stage', 
-                                                                                new_state = states.DONE, 
-                                                                                channel = mq_channel,
-                                                                                queue = 'deq-to-sync',
-                                                                                profiler=local_prof, 
-                                                                                logger=self._logger)
-
-                                                                    try:
-                                                                        pipe._increment_stage()
-
-                                                                        if pipe.completed:
-                                                                        
-                                                                            transition( obj=pipe, 
-                                                                                        obj_type = 'Pipeline', 
-                                                                                        new_state = states.DONE,
-                                                                                        channel = mq_channel, 
-                                                                                        queue = 'deq-to-sync',
-                                                                                        profiler=local_prof, 
-                                                                                        logger=self._logger)
-                                                                    
-                                                                    except:
-                                                                        pipe._decrement_stage()
-
-                                                        else:
-
-                                                            # Task is canceled
-                                                            pass
+                                                                            ## Do post exec shit
+                                                                            pass
 
                                                         # Found the task and processed it -- no more iterations needed
 

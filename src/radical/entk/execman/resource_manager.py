@@ -217,7 +217,6 @@ class ResourceManager(object):
                             ]
 
             optional_keys = [
-                                'gpus',
                                 'access_schema',
                                 'queue'
                             ]

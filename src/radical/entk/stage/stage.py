@@ -28,6 +28,13 @@ class Stage(object):
         # Pipeline this stage belongs to
         self._p_pipeline = None    
 
+        # Available post exec options
+        self._post_exec_options = ['skip','append']
+
+        # User selected post exec operation
+        self._post_exec = None
+
+
     # ------------------------------------------------------------------------------------------------------------------
     # Getter functions
     # ------------------------------------------------------------------------------------------------------------------
@@ -101,6 +108,10 @@ class Stage(object):
         return self._state_history
 
 
+    @property
+    def post_exec(self):
+        return self._post_exec
+
     # ------------------------------------------------------------------------------------------------------------------
     # Setter functions
     # ------------------------------------------------------------------------------------------------------------------
@@ -133,6 +144,21 @@ class Stage(object):
         else:
             raise TypeError(expected_type=str, actual_type=type(value))        
     
+
+    @post_exec.setter
+    def post_exec(self, func_name):
+
+        if isinstance(func_name, str):
+            if func_name.split('-')[0] in self._post_exec_options:
+                self._post_exec = func_name
+            else:
+                ValueError( obj=self._uid, 
+                            attribute='post_exec',
+                            expected_value=self._post_exec_options,
+                            actual_value=func_name
+                        )
+        else:
+            raise TypeError(expected_type=str, actual_type=type(func_name))  
 
     # ------------------------------------------------------------------------------------------------------------------
     # Public methods
