@@ -15,6 +15,7 @@ def generate_pipeline():
 
     # Create a Stage object 
     s1 = Stage()
+    s1.post_exec = 'skip-1'
 
     # Create a Task object which creates a file named 'output.txt' of size 1 MB
     t1 = Task()    
@@ -79,10 +80,11 @@ if __name__ == '__main__':
     # resource is 'local.localhost' to execute locally
     res_dict = {
 
-            'resource': 'local.localhost',
+            'resource': 'xsede.supermic',
             'walltime': 10,
-            'cores': 2,
-            'project': '',
+            'cores': 21,
+            'project': 'TG-MCB090174',
+            'access_schema': 'gsissh'
     }
 
     # Create Resource Manager object with the above resource description

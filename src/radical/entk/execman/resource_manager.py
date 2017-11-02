@@ -315,7 +315,7 @@ class ResourceManager(object):
             pd_init = {
                     'resource'  : self._resource,
                     'runtime'   : self._walltime,
-                    'cores'     : self._cpus,
+                    'cores'     : self._cores,
                     'project'   : self._project,
                     }
     

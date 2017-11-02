@@ -19,17 +19,8 @@ def test_task_initialization():
     assert type(t.executable) == list
     assert type(t.arguments) == list
     assert type(t.post_exec) == list
-    assert t.cpu_reqs == {  'processes': 1, 
-                            'process_type': None, 
-                            'threads_per_process': 1, 
-                            'thread_type': None
-                            }
-    assert t.gpu_reqs == {    'processes': 0, 
-                                    'process_type': None, 
-                                    'threads_per_process': 0, 
-                                    'thread_type': None
-                                }
-
+    assert t.cores == 1
+    assert t.mpi == False
     assert type(t.upload_input_data) == list
     assert type(t.copy_input_data) == list
     assert type(t.link_input_data) == list
@@ -47,7 +38,7 @@ def test_assignment_exceptions():
 
     t = Task()
 
-    data_type = [1,'a',True, list(), dict()]
+    data_type = [1,'a',True, list()]
 
     for data in data_type:
 
@@ -85,16 +76,16 @@ def test_assignment_exceptions():
             with pytest.raises(TypeError):
                 t.download_output_data = data
 
-        if not isinstance(data, dict):
+        if not isinstance(data, bool):
 
             with pytest.raises(TypeError):
-                t.cpu_reqs = data
+                t.mpi = data
+
+        if not isinstance(data, int):
 
             with pytest.raises(TypeError):
-                t.gpu_reqs = data
+                t.cores = data
 
-
-    
 
 def test_task_replicate():
 
@@ -108,16 +99,8 @@ def test_task_replicate():
     t1.pre_exec = ['module load gromacs']
     t1.executable = ['grompp']
     t1.arguments = ['hello']
-    t1.cpu_reqs = { 'processes': 4, 
-                    'process_type': 'MPI', 
-                    'threads_per_process': 2, 
-                    'thread_type': 'OpenMP'
-                }
-    t1.gpu_reqs = { 'processes': 4, 
-                    'process_type': 'MPI', 
-                    'threads_per_process': 1, 
-                    'thread_type': None
-                }
+    t1.cores = 4
+    t1.mpi = True
     t1.post_exec = ['echo test']
     
     t1.upload_input_data    = ['upload_input.dat']
@@ -135,8 +118,8 @@ def test_task_replicate():
     assert t2.pre_exec == t1.pre_exec
     assert t2.executable == t1.executable
     assert t2.arguments == t1.arguments
-    assert t2.cpu_reqs == t1.cpu_reqs
-    assert t2.gpu_reqs == t1.gpu_reqs
+    assert t2.cores == t1.cores
+    assert t2.mpi == t1.mpi
     assert t2.post_exec == t1.post_exec
     assert t2.upload_input_data == t1.upload_input_data
     assert t2.copy_input_data == t1.copy_input_data
@@ -159,16 +142,8 @@ def test_task_to_dict():
     t1.pre_exec = ['module load gromacs']
     t1.executable = ['grompp']
     t1.arguments = ['hello']
-    t1.cpu_reqs = { 'processes': 4, 
-                    'process_type': 'MPI', 
-                    'threads_per_process': 2, 
-                    'thread_type': 'OpenMP'
-                }
-    t1.gpu_reqs = { 'processes': 4, 
-                    'process_type': 'MPI', 
-                    'threads_per_process': 1, 
-                    'thread_type': None
-                }
+    t1.cores = 4
+    t1.mpi = True
     t1.post_exec = ['echo test']
     
     t1.upload_input_data    = ['upload_input.dat']
@@ -185,8 +160,8 @@ def test_task_to_dict():
     assert task_dict['pre_exec']                == t1.pre_exec
     assert task_dict['executable']              == t1.executable
     assert task_dict['arguments']               == t1.arguments
-    assert task_dict['cpu_reqs']                == t1.cpu_reqs
-    assert task_dict['gpu_reqs']                == t1.gpu_reqs
+    assert task_dict['cores']                   == t1.cores
+    assert task_dict['mpi']                     == t1.mpi
     assert task_dict['post_exec']               == t1.post_exec
     assert task_dict['upload_input_data']       == t1.upload_input_data
     assert task_dict['copy_input_data']         == t1.copy_input_data
@@ -206,16 +181,8 @@ def test_task_from_dict():
     t1.pre_exec = ['module load gromacs']
     t1.executable = ['grompp']
     t1.arguments = ['hello']
-    t1.cpu_reqs = { 'processes': 4, 
-                    'process_type': 'MPI', 
-                    'threads_per_process': 2, 
-                    'thread_type': 'OpenMP'
-                }
-    t1.gpu_reqs = { 'processes': 4, 
-                    'process_type': 'MPI', 
-                    'threads_per_process': 1, 
-                    'thread_type': None
-                }
+    t1.cores = 4
+    t1.mpi = True
     t1.post_exec = ['echo test']
     
     t1.upload_input_data    = ['upload_input.dat']
@@ -239,8 +206,8 @@ def test_task_from_dict():
     assert task_dict['pre_exec']                == t2.pre_exec
     assert task_dict['executable']              == t2.executable
     assert task_dict['arguments']               == t2.arguments
-    assert task_dict['cpu_reqs']                == t2.cpu_reqs
-    assert task_dict['gpu_reqs']                == t2.gpu_reqs
+    assert task_dict['cores']                   == t2.cores
+    assert task_dict['mpi']                     == t2.mpi
     assert task_dict['post_exec']               == t2.post_exec
     assert task_dict['upload_input_data']       == t2.upload_input_data
     assert task_dict['copy_input_data']         == t2.copy_input_data

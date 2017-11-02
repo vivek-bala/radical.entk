@@ -35,7 +35,7 @@ def test_integration_local():
 
             'resource': 'local.localhost',
             'walltime': 5,
-            'cpus': 1,
+            'cores': 1,
             'project': ''
 
     }

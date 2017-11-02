@@ -516,8 +516,29 @@ class WFprocessor(object):
 
                                                                 if stage.post_exec:
 
-                                                                    ## Do post exec shit
-                                                                    pass
+                                                                    ## Skip stages
+                                                                    if stage.post_exec.startswith('skip'):
+
+                                                                        skip_count = int(stage.post_exec.split('-')[1])
+                                                                        while(skip_count>0):
+
+                                                                            pipe._increment_stage()
+
+                                                                            skip_stage = pipe.stages[pipe.current_stage-1]
+                                                                            skip_stage.state = states.SKIPPED
+
+                                                                            transition( obj=skip_stage, 
+                                                                                        obj_type = 'Stage', 
+                                                                                        new_state = states.SKIPPED, 
+                                                                                        channel = mq_channel,
+                                                                                        queue = 'deq-to-sync',
+                                                                                        profiler=local_prof, 
+                                                                                        logger=self._logger)
+
+                                                                            skip_count -= 1
+
+                                                                            pipe._increment_stage()
+
 
 
                                                                 else:

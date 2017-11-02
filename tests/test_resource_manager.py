@@ -5,6 +5,34 @@ import radical.pilot as rp
 from time import sleep
 
 
+def test_resource_manager_initialization():
+
+    """
+    ***Purpose***:  Test initialization of all attributes of resource manager upon instantiation with a 
+    resource description
+    """
+
+    res_dict = {
+                    'resource': 'local.localhost',
+                    'walltime': 40,
+                    'cores': 20,
+                    'project': 'Random'
+                }
+
+    if not os.environ.get('RADICAL_PILOT_DBURL', None):
+        with pytest.raises(Error):
+            rm = ResourceManager(res_dict)
+    
+    os.environ['RADICAL_PILOT_DBURL'] = 'mlab-url'
+
+    rm = ResourceManager(res_dict)
+
+    assert rm.resource == res_dict['resource']
+    assert rm.walltime == res_dict['walltime']
+    assert rm.cores == res_dict['cores']
+    assert rm.project == res_dict['project']
+
+
 def test_validate_resource_description():
 
     """
@@ -14,7 +42,7 @@ def test_validate_resource_description():
     res_dict = {
                     'resource': 'local.localhost',
                     'walltime': 40,
-                    'cpus': 20,
+                    'cores': 20,
                     'project': 'Random'
                 }
     
@@ -39,7 +67,7 @@ def test_validate_resource_description():
         res_dict = {
                     'resource': data[0],
                     'walltime': 40,
-                    'cpus': 20,
+                    'cores': 20,
                     'project': 'Random'
                 }
 
@@ -48,7 +76,7 @@ def test_validate_resource_description():
         res_dict = {
                     'resource': 'local.localhost',
                     'walltime': 40,
-                    'cpus': 20,
+                    'cores': 20,
                     'project': data[0]
                 }
 
@@ -57,7 +85,7 @@ def test_validate_resource_description():
         res_dict = {
                     'resource': 'local.localhost',
                     'walltime': data[1],
-                    'cpus': 20,
+                    'cores': 20,
                     'project': 'Random'
                 }
 
@@ -66,7 +94,7 @@ def test_validate_resource_description():
         res_dict = {
                     'resource': 'local.localhost',
                     'walltime': 40,
-                    'cpus': data[1],
+                    'cores': data[1],
                     'project': 'Random'
                 }
 
@@ -82,7 +110,7 @@ def test_resource_manager_populate():
     res_dict = {
                     'resource': 'local.localhost',
                     'walltime': 40,
-                    'cpus': 20,
+                    'cores': 20,
                     'project': 'Random'
                 }
 
@@ -94,35 +122,7 @@ def test_resource_manager_populate():
 
         rm._populate({  'resource': 'local.localhost',
                         'walltime': 40,
-                        'cpus': 20})
-
-
-def test_resource_manager_initialization():
-
-    """
-    ***Purpose***:  Test initialization of all attributes of resource manager upon instantiation with a 
-    resource description
-    """
-
-    res_dict = {
-                    'resource': 'local.localhost',
-                    'walltime': 40,
-                    'cpus': 20,
-                    'project': 'Random'
-                }
-
-    if not os.environ.get('RADICAL_PILOT_DBURL', None):
-        with pytest.raises(Error):
-            rm = ResourceManager(res_dict)
-    
-    os.environ['RADICAL_PILOT_DBURL'] = 'mlab-url'
-
-    rm = ResourceManager(res_dict)
-
-    assert rm.resource == res_dict['resource']
-    assert rm.walltime == res_dict['walltime']
-    assert rm.cpus     == res_dict['cpus']
-    assert rm.project  == res_dict['project']
+                        'cores': 20})
 
 
 def test_resource_request():
@@ -135,7 +135,7 @@ def test_resource_request():
     res_dict = {
                     'resource': 'local.localhost',
                     'walltime': 40,
-                    'cpus': 20,
+                    'cores': 20,
                     'project': ''
                 }
 

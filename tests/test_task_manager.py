@@ -13,7 +13,7 @@ def test_tmgr_process():
     res_dict = {
                     'resource': 'local.localhost',
                     'walltime': 40,
-                    'cpus': 20,
+                    'cores': 20,
                     'project': 'Random'
                 }
     
@@ -37,7 +37,7 @@ def test_heartbeat():
     res_dict = {
                     'resource': 'local.localhost',
                     'walltime': 40,
-                    'cpus': 20,
+                    'cores': 20,
                     'project': 'Random'
                 }
     

@@ -8,88 +8,60 @@ import radical.utils as ru
 
 def func_for_process(p, mq_channel, logger, profiler):
 
-    try:
+    for t in p.stages[0].tasks:
 
-        for t in p.stages[0].tasks:
-
-            t.state = states.SCHEDULING
-            sync_with_master(   obj=t, 
-                                obj_type='Task', 
-                                channel=mq_channel, 
-                                queue='tmgr-to-sync',
-                                logger=logger, 
-                                local_prof=profiler)
-
-    except KeyboardInterrupt:
-        raise KeyboardInterrupt
-
-    except Exception, ex:
-        raise
+        t.state = states.SCHEDULING
+        sync_with_master(   obj=t, 
+                            obj_type='Task', 
+                            channel=mq_channel, 
+                            queue='tmgr-to-sync',
+                            logger=logger, 
+                            local_prof=profiler)
 
 def test_synchronizer():
 
+    logger = ru.get_logger('radical.entk.temp_logger')
+    profiler = ru.Profiler(name = 'radical.entk.temp')
+    amgr = AppManager()
+    mq_connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+    mq_channel = mq_connection.channel()
 
-    try:
+    assert amgr._setup_mqs()
+    
+    p = Pipeline()
+    s = Stage()
 
-        logger = ru.get_logger('radical.entk.temp_logger')
-        profiler = ru.Profiler(name = 'radical.entk.temp')
-        amgr = AppManager()
-        mq_connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-        mq_channel = mq_connection.channel()
+    # Create and add 100 tasks to the stage
+    for cnt in range(100):
 
-        try:
-            # Setup the RabbitMQ system in order to test our synchronizer
-            assert amgr._setup_mqs()
-        except:
-            raise AssertionError
+        t = Task()
+        t.executable = ['some-executable-%s'%cnt]
 
-        p = Pipeline()
-        s = Stage()
+        s.add_tasks(t)
 
-        # Create and add 100 tasks to the stage
-        for cnt in range(100):
+    p.add_stages(s)
 
-            t = Task()
-            t.executable = ['some-executable-%s'%cnt]
+    amgr.assign_workflow(set([p]))
 
-            s.add_tasks(t)
+    for t in p.stages[0].tasks:
+        assert t.state == states.INITIAL
+        
 
-        p.add_stages(s)
+    # Start the synchronizer method in a thread
+    sync_thread = Thread(target=amgr._synchronizer, name='synchronizer-thread')
+    sync_thread.start()        
 
-        amgr.assign_workflow(set([p]))
+    # Start the synchronizer method in a thread
+    proc = Process(target=func_for_process, name='temp-proc',
+                    args=(p, mq_channel, logger, profiler))
 
-        try:
+    proc.start()
+    proc.join()
 
-            for t in p.stages[0].tasks:
-                assert t.state == states.INITIAL
-        except:
-            raise AssertionError
-
-
-        # Start the synchronizer method in a thread
-        sync_thread = Thread(target=amgr._synchronizer, name='synchronizer-thread')
-        sync_thread.start()        
-
-        # Start the synchronizer method in a thread
-        proc = Process(target=func_for_process, name='temp-proc',
-                        args=(p, mq_channel, logger, profiler))
-
-        proc.start()
-        proc.join()
-
-
-        try:
-            for t in p.stages[0].tasks:
-                print t.state
-                assert t.state == states.SCHEDULING
-        except AssertionError:
-            raise AssertionError
-
-    except:
-        raise
-
-    finally:
-
-        amgr._end_sync.set()
-        sync_thread.join()
+    for t in p.stages[0].tasks:
+        print t.state
+        assert t.state == states.SCHEDULING
+        
+    amgr._end_sync.set()
+    sync_thread.join()
             
