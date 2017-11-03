@@ -119,10 +119,15 @@ class Stage(object):
         Following is the expected structure:
 
         self._post_exec = {
-                            'operation' : 'skip-1'/'skip-all'/'append'
-                            'evaluate'  : func_1,
-                            'on_true'   : func_2,
-                            'on_false'  : func_3
+                            'condition' : func_1,
+                            'on_true'   : {
+                                            'operation' : 'skip',
+                                            'operand'   : 2
+                                        },
+                            'on_false'  : {
+                                            'operation' : 'append',
+                                            'operand'   : Stage
+                                        }                            
                         }
         '''
 
