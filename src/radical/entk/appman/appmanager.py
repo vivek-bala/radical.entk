@@ -291,7 +291,7 @@ class AppManager(object):
 
                 # We wait till all pipelines of the workflow are marked
                 # complete
-                while (active_pipe_count > 0)or(self._wfp.workflow_incomplete()):
+                while (active_pipe_count > 0)and(self._wfp.workflow_incomplete()):
 
                     if slow_run:
                         time.sleep(1)

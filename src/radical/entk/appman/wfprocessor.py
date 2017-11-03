@@ -517,9 +517,9 @@ class WFprocessor(object):
                                                                 if stage.post_exec:
 
                                                                     ## Skip stages
-                                                                    if stage.post_exec.startswith('skip'):
+                                                                    if stage.post_exec['operation'].startswith('skip'):
 
-                                                                        skip_count = int(stage.post_exec.split('-')[1])
+                                                                        skip_count = int(stage.post_exec['operation'].split('-')[1])
                                                                         while(skip_count>0):
 
                                                                             pipe._increment_stage()
@@ -540,6 +540,38 @@ class WFprocessor(object):
                                                                             pipe._increment_stage()
 
 
+                                                                    elif stage.post_exec == 'terminate':
+
+                                                                        skip_count = pipe.stage_count - pipe.current_stage
+
+                                                                        while(skip_count>0):
+
+                                                                            pipe._increment_stage()
+
+                                                                            skip_stage = pipe.stages[pipe.current_stage-1]
+                                                                            skip_stage.state = states.SKIPPED
+
+                                                                            transition( obj=skip_stage, 
+                                                                                        obj_type = 'Stage', 
+                                                                                        new_state = states.SKIPPED, 
+                                                                                        channel = mq_channel,
+                                                                                        queue = 'deq-to-sync',
+                                                                                        profiler=local_prof, 
+                                                                                        logger=self._logger)
+
+                                                                            skip_count -= 1
+
+                                                                            pipe._increment_stage()
+
+                                                                        pipe.states = states.SKIPPED
+
+                                                                        transition( obj=pipe, 
+                                                                                    obj_type = 'Pipeline', 
+                                                                                    new_state = states.SKIPPED, 
+                                                                                    channel = mq_channel,
+                                                                                    queue = 'deq-to-sync',
+                                                                                    profiler=local_prof, 
+                                                                                    logger=self._logger)
 
                                                                 else:
 

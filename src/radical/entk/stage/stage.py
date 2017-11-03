@@ -110,6 +110,23 @@ class Stage(object):
 
     @property
     def post_exec(self):
+
+        '''
+
+        The post_exec property enables adaptivity in EnTK. A function, func_1,
+        is evaluated to produce a boolean result. Function func_2 is executed
+        if the result is True and func_3 is executed if the result is False.
+        Following is the expected structure:
+
+        self._post_exec = {
+                            'operation' : 'skip-1'/'skip-all'/'append'
+                            'evaluate'  : func_1,
+                            'on_true'   : func_2,
+                            'on_false'  : func_3
+                        }
+        '''
+
+
         return self._post_exec
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -146,19 +163,12 @@ class Stage(object):
     
 
     @post_exec.setter
-    def post_exec(self, func_name):
+    def post_exec(self, val):
 
-        if isinstance(func_name, str):
-            if func_name.split('-')[0] in self._post_exec_options:
-                self._post_exec = func_name
-            else:
-                ValueError( obj=self._uid, 
-                            attribute='post_exec',
-                            expected_value=self._post_exec_options,
-                            actual_value=func_name
-                        )
+        if isinstance(val, dict):
+            self._post_exec = val            
         else:
-            raise TypeError(expected_type=str, actual_type=type(func_name))  
+            raise TypeError(expected_type=dict, actual_type=type(val))  
 
     # ------------------------------------------------------------------------------------------------------------------
     # Public methods

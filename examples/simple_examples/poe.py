@@ -15,7 +15,7 @@ def generate_pipeline():
 
     # Create a Stage object 
     s1 = Stage()
-    s1.post_exec = 'skip-1'
+    s1.post_exec = {'operation' : 'skip-1'}
 
     # Create a Task object which creates a file named 'output.txt' of size 1 MB
     t1 = Task()    
@@ -104,14 +104,14 @@ if __name__ == '__main__':
     # Run the Application Manager
     appman.run()
 
-    p = generate_pipeline()
-    print p.uid
+    # p = generate_pipeline()
+    # print p.uid
 
-    # Assign the workflow as a set of Pipelines to the Application Manager
-    appman.assign_workflow(set([p]))
+    # # Assign the workflow as a set of Pipelines to the Application Manager
+    # appman.assign_workflow(set([p]))
 
-    # Run the Application Manager
-    appman.run()
+    # # Run the Application Manager
+    # appman.run()
 
-    appman.resource_terminate()
+    # appman.resource_terminate()
 
