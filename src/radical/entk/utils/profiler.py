@@ -3,6 +3,8 @@ import argparse
 import numpy as np
 import pprint
 
+prof_cols = ['time','event','comp','thread','uid','state','msg']
+
 class Profiler(object):
 
     def __init__(self, src=None):
@@ -36,51 +38,50 @@ class Profiler(object):
     def _get_resource_manager_details(self):
     
         self._rman_df = pd.read_csv('%s/radical.entk.resource_manager.0000.prof'%self._src,skiprows=[0,1], 
-                            names = ['timestamp', 'event', 'comp', 'tid', 'uid', 'state', 'msg']
-                            # names=['timestamp', 'thread/proc', 'uid', 'state', 'event', 'msg']
+                            names = prof_cols
                         )
 
 
     def _get_app_manager_details(self):
     
         self._aman_df = pd.read_csv('%s/radical.entk.appmanager.0000.prof'%self._src,skiprows=[0,1], 
-                            names = ['timestamp', 'event', 'comp', 'tid', 'uid', 'state', 'msg']
+                            names = prof_cols
                         )
     
     
     def _get_wfp_details(self):
     
         df_obj = pd.read_csv('%s/radical.entk.wfprocessor.0000-obj.prof'%self._src,skiprows=[0,1], 
-                            names = ['timestamp', 'event', 'comp', 'tid', 'uid', 'state', 'msg']
+                            names = prof_cols
                         )
     
         df_proc = pd.read_csv('%s/radical.entk.wfprocessor.0000-proc.prof'%self._src,skiprows=[0,1], 
-                            names = ['timestamp', 'event', 'comp', 'tid', 'uid', 'state', 'msg']
+                            names = prof_cols
                         )
     
-        self._wfp_df = pd.concat([df_obj,df_proc]).sort_values(by='timestamp')
+        self._wfp_df = pd.concat([df_obj,df_proc]).sort_values(by='time')
     
     
     def _get_task_manager_details(self):
     
         df_obj = pd.read_csv('%s/radical.entk.task_manager.0000-obj.prof'%self._src,skiprows=[0,1], 
-                            names = ['timestamp', 'event', 'comp', 'tid', 'uid', 'state', 'msg']
+                            names = prof_cols
                         )
     
         df_proc = pd.read_csv('%s/radical.entk.task_manager.0000-proc.prof'%self._src,skiprows=[0,1], 
-                            names = ['timestamp', 'event', 'comp', 'tid', 'uid', 'state', 'msg']
+                            names = prof_cols
                         )
     
-        self._tman_df = pd.concat([df_obj,df_proc]).sort_values(by='timestamp')
+        self._tman_df = pd.concat([df_obj,df_proc]).sort_values(by='time')
     
     
     def _get_state_details(self):
     
-        # state_df  = pd.DataFrame(columns=['timestamp', 'thread/proc', 'uid', 'state', 'event', 'msg'])
-        state_df  = pd.DataFrame(columns=['timestamp', 'event', 'comp', 'tid', 'uid', 'state', 'msg'])
+        # state_df  = pd.DataFrame(columns=['time', 'thread/proc', 'uid', 'state', 'event', 'msg'])
+        state_df  = pd.DataFrame(columns = prof_cols)
     
-        state_df = state_df.append(self._wfp_df[pd.notnull(self._wfp_df['state'])]).sort_values(by='timestamp')
-        state_df = state_df.append(self._tman_df[pd.notnull(self._tman_df['state'])]).sort_values(by='timestamp')
+        state_df = state_df.append(self._wfp_df[pd.notnull(self._wfp_df['state'])]).sort_values(by='time')
+        state_df = state_df.append(self._tman_df[pd.notnull(self._tman_df['state'])]).sort_values(by='time')
     
         self._states_df = state_df.reset_index().drop(['index'], axis=1)
     
@@ -88,13 +89,13 @@ class Profiler(object):
     
     def _get_event_details(self):
     
-        # event_df  = pd.DataFrame(columns=['timestamp', 'thread/proc', 'uid', 'state', 'event', 'msg'])    
-        event_df  = pd.DataFrame(columns=['timestamp', 'event', 'comp', 'tid', 'uid', 'state', 'msg'])    
+        # event_df  = pd.DataFrame(columns=['time', 'thread/proc', 'uid', 'state', 'event', 'msg'])    
+        event_df  = pd.DataFrame(columns = prof_cols)    
 
-        event_df = event_df.append(self._rman_df[pd.isnull(self._rman_df['state'])]).sort_values(by='timestamp')
-        event_df = event_df.append(self._aman_df[pd.isnull(self._aman_df['state'])]).sort_values(by='timestamp')
-        event_df = event_df.append(self._wfp_df[pd.isnull(self._wfp_df['state'])]).sort_values(by='timestamp')
-        event_df = event_df.append(self._tman_df[pd.isnull(self._tman_df['state'])]).sort_values(by='timestamp')
+        event_df = event_df.append(self._rman_df[pd.isnull(self._rman_df['state'])]).sort_values(by='time')
+        event_df = event_df.append(self._aman_df[pd.isnull(self._aman_df['state'])]).sort_values(by='time')
+        event_df = event_df.append(self._wfp_df[pd.isnull(self._wfp_df['state'])]).sort_values(by='time')
+        event_df = event_df.append(self._tman_df[pd.isnull(self._tman_df['state'])]).sort_values(by='time')
     
         self._events_df = event_df.reset_index().drop(['index'], axis=1)
     
@@ -119,7 +120,7 @@ class Profiler(object):
             if obj_type not in self._states_dict[row['state']]:
                 self._states_dict[row['state']][obj_type] = dict()
 
-            self._states_dict[row['state']][obj_type][obj_name] = row['timestamp']
+            self._states_dict[row['state']][obj_type][obj_name] = row['time']
 
 
         for row in self._states_df.iterrows():
@@ -162,7 +163,7 @@ class Profiler(object):
                 if obj_type not in self._events_dict[row['event']]:
                     self._events_dict[row['event']][obj_type] = dict()
 
-                self._events_dict[row['event']][obj_type][obj_name] = row['timestamp']
+                self._events_dict[row['event']][obj_type][obj_name] = row['time']
 
 
         #pprint.pprint(self._events_dict)
@@ -178,14 +179,14 @@ class Profiler(object):
 
             for state, object_collection in self._states_dict.iteritems():
                 
-                for obj, timestamp in object_collection[obj_type].iteritems():
+                for obj, time in object_collection[obj_type].iteritems():
 
                     if obj == uid:
 
                         if 'uid' not in data:
                             data['uid'] = uid
 
-                        data[state] = timestamp
+                        data[state] = time
 
             return data
 
@@ -195,12 +196,12 @@ class Profiler(object):
 
             for object_collection, objs in self._states_dict[state].iteritems():
 
-                for obj, timestamp in objs.iteritems():
+                for obj, time in objs.iteritems():
 
                     if 'state' not in data:
                         data['state'] = state
 
-                    data[obj] = timestamp
+                    data[obj] = time
 
             return data
 
