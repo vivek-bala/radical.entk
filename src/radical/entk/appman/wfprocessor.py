@@ -512,88 +512,41 @@ class WFprocessor(object):
                                                                             logger=self._logger)
 
                                                                 ## Check if Stage has a post-exec that needs to be
-                                                                ## executed
+                                                                ## executed                                           
 
                                                                 if stage.post_exec:
 
-                                                                    ## Skip stages
-                                                                    if stage.post_exec['operation'].startswith('skip'):
+                                                                    try:
 
-                                                                        skip_count = int(stage.post_exec['operation'].split('-')[1])
-                                                                        while(skip_count>0):
+                                                                        self._logger.info('Executing post-exec for stage %s'%stage.uid)
 
-                                                                            pipe._increment_stage()
+                                                                        func_condition = stage.post_exec['condition']
+                                                                        func_on_true = stage.post_exec['on_true']
+                                                                        func_on_false = stage.post_exec['on_false']
+                                                                        if func_condition():
+                                                                            func_on_true()
+                                                                        else:
+                                                                            func_on_false()                     
 
-                                                                            skip_stage = pipe.stages[pipe.current_stage-1]
-                                                                            skip_stage.state = states.SKIPPED
+                                                                        self._logger.info('Post-exec executed for stage %s'%stage.uid)                 
 
-                                                                            transition( obj=skip_stage, 
-                                                                                        obj_type = 'Stage', 
-                                                                                        new_state = states.SKIPPED, 
-                                                                                        channel = mq_channel,
-                                                                                        queue = 'deq-to-sync',
-                                                                                        profiler=local_prof, 
-                                                                                        logger=self._logger)
+                                                                    except Exception, ex:
+                                                                        self._logger.exception('Execution failed in post_exec of stage %s'%stage.uid)
+                                                                        raise
 
-                                                                            skip_count -= 1
+                                                                pipe._increment_stage()
 
-                                                                            pipe._increment_stage()
+                                                                if pipe.completed:                                                                        
 
-
-                                                                    elif stage.post_exec == 'terminate':
-
-                                                                        skip_count = pipe.stage_count - pipe.current_stage
-
-                                                                        while(skip_count>0):
-
-                                                                            pipe._increment_stage()
-
-                                                                            skip_stage = pipe.stages[pipe.current_stage-1]
-                                                                            skip_stage.state = states.SKIPPED
-
-                                                                            transition( obj=skip_stage, 
-                                                                                        obj_type = 'Stage', 
-                                                                                        new_state = states.SKIPPED, 
-                                                                                        channel = mq_channel,
-                                                                                        queue = 'deq-to-sync',
-                                                                                        profiler=local_prof, 
-                                                                                        logger=self._logger)
-
-                                                                            skip_count -= 1
-
-                                                                            pipe._increment_stage()
-
-                                                                        pipe.states = states.SKIPPED
-
-                                                                        transition( obj=pipe, 
-                                                                                    obj_type = 'Pipeline', 
-                                                                                    new_state = states.SKIPPED, 
-                                                                                    channel = mq_channel,
-                                                                                    queue = 'deq-to-sync',
-                                                                                    profiler=local_prof, 
-                                                                                    logger=self._logger)
-
-                                                                else:
-
-                                                                    pipe._increment_stage()
-
-                                                                    if pipe.completed:                                                                        
-
-                                                                        transition( obj=pipe, 
-                                                                                    obj_type = 'Pipeline', 
-                                                                                    new_state = states.DONE, 
-                                                                                    channel = mq_channel,
-                                                                                    queue = 'deq-to-sync',
-                                                                                    profiler=local_prof, 
-                                                                                    logger=self._logger)  
-
-                                                                        if pipe.post_exec:
-
-                                                                            ## Do post exec shit
-                                                                            pass
+                                                                    transition( obj=pipe, 
+                                                                                obj_type = 'Pipeline', 
+                                                                                new_state = states.DONE, 
+                                                                                channel = mq_channel,
+                                                                                queue = 'deq-to-sync',
+                                                                                profiler=local_prof, 
+                                                                                logger=self._logger)                                                                      
 
                                                         # Found the task and processed it -- no more iterations needed
-
                                                         break
 
                                                 # Found the stage and processed it -- no more iterations neeeded

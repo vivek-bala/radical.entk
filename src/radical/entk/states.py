@@ -2,7 +2,6 @@ __copyright__   = "Copyright 2017-2018, http://radical.rutgers.edu"
 __author__      = "Vivek Balasubramanian <vivek.balasubramanian@rutgers.edu>"
 __license__     = "MIT"
 
-
 # -----------------------------------------------------------------------------
 # common states - Pipeline, Stage, Task
 INITIAL         = 'DESCRIBED'

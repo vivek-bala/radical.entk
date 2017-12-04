@@ -169,3 +169,30 @@ def test_check_stage_complete():
     assert s._check_stage_complete() == False
     s._set_tasks_state(states.DONE)
     assert s._check_stage_complete() == True
+
+
+def test_stage_branch():
+
+    """
+    ***Purpose***: Test syntax to add branching conditions to a Stage
+    """
+
+    def func():
+
+        # Empty function to check syntax
+        pass
+
+    s = Stage()
+
+    with pytest.raises(TypeError):
+
+        s.post_exec = list()
+        s.post_exec = tuple()
+        
+        s.post_exec = {'condition': 1, 'on_true': func, 'on_false': func}
+        s.post_exec = {'condition': func, 'on_true': 1, 'on_false': func}
+        s.post_exec = {'condition': func, 'on_true': func, 'on_false': 1}
+
+    with pytest.raises(ValueError):
+
+        s.post_exec = {'a': func, 'b': func}

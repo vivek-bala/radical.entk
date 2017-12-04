@@ -705,6 +705,26 @@ class AppManager(object):
 
                                         stage.state = str(completed_stage.state)
 
+                                        if stage.post_exec:
+
+                                            try:
+
+                                                self._logger.info('Executing post-exec for stage %s'%stage.uid)
+
+                                                func_condition = stage.post_exec['condition']
+                                                func_on_true = stage.post_exec['on_true']
+                                                func_on_false = stage.post_exec['on_false']
+                                                if func_condition():
+                                                    func_on_true()
+                                                else:
+                                                    func_on_false()                     
+
+                                                self._logger.info('Post-exec executed for stage %s'%stage.uid)
+
+                                            except Exception, ex:
+                                                self._logger.exception('Execution failed in post_exec of stage %s'%stage.uid)
+                                                raise
+
                                         mq_channel.basic_publish(   exchange='',
                                                                     routing_key=reply_to,
                                                                     properties=pika.BasicProperties(
