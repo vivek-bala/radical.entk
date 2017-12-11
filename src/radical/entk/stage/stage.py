@@ -13,7 +13,7 @@ class Stage(object):
 
     def __init__(self):
 
-        self._uid       = ru.generate_id('radical.entk.stage')
+        self._uid       = ru.generate_id('radical.entk.stage', mode=ru.ID_PRIVATE)
         self._tasks     = set()
         self._name      = str()
 
@@ -27,9 +27,6 @@ class Stage(object):
 
         # Pipeline this stage belongs to
         self._p_pipeline = None    
-
-        # Available post exec options
-        self._post_exec_options = ['skip','append']
 
         # User selected post exec operation
         self._post_exec = None
@@ -434,17 +431,17 @@ class Stage(object):
         Details: This method is to be called before the resource request is placed. Currently, this method is called
         when the parent Pipeline is validated.
         """
-
-        if self._state is not states.INITIAL:
+        pass
+        # if self._state is not states.INITIAL:
             
-            raise ValueError(   object=self._uid, 
-                                attribute='state', 
-                                expected_value=states.INITIAL,
-                                actual_value=self._state)
+        #     raise ValueError(   object=self._uid, 
+        #                         attribute='state', 
+        #                         expected_value=states.INITIAL,
+        #                         actual_value=self._state)
 
-        if self._tasks is None:
+        # if self._tasks is None:
 
-            raise MissingError( object=self._uid,
-                                missing_attribute='tasks')
+        #     raise MissingError( object=self._uid,
+        #                         missing_attribute='tasks')
 
     # ------------------------------------------------------------------------------------------------------------------

@@ -235,13 +235,16 @@ class WFprocessor(object):
                                             profiler=local_prof, 
                                             logger=self._logger)
     
-                            if pipe.stages[pipe.current_stage-1].state in [states.INITIAL, states.SCHEDULED]:
+
+                            if pipe.stages[pipe.current_stage-1].state in [states.INITIAL]:
     
                                 try:
 
                                     # Starting scheduling of tasks of current stage, so set state of stage to 
                                     # SCHEDULING
                                     executable_stage = pipe.stages[pipe.current_stage-1]
+
+                                    print 'Enqueur: ', executable_stage.state, executable_stage.uid
 
                                     if executable_stage.state == states.INITIAL:
 
@@ -252,6 +255,8 @@ class WFprocessor(object):
                                                     queue = 'enq-to-sync',
                                                     profiler=local_prof, 
                                                     logger=self._logger)
+
+                                    print 'Enqueur: ', executable_stage.state, executable_stage.uid
                                     
                                     executable_tasks = executable_stage.tasks
     
