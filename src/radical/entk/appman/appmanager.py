@@ -689,7 +689,7 @@ class AppManager(object):
                                             # the AppManager does not know about it. The current solution is going to be: 
                                             # add it to the workflow object in the AppManager via the synchronizer.
 
-                                            self._prof.prof('Adding new task: %s'%(completed_task.uid))
+                                            self._prof.prof('adding new task: %s'%(completed_task.uid))
 
                                             self._logger.info('Adding new task %s to parent stage: %s'%(completed_task.uid, 
                                                                                                     stage.uid))
@@ -760,7 +760,7 @@ class AppManager(object):
                                     # know about it. The current solution is going to be: add it to the workflow object in the 
                                     # AppManager via the synchronizer.
 
-                                    self._prof.prof('Adding new stage %s'%(completed_stage.uid))
+                                    self._prof.prof('adding new stage %s'%(completed_stage.uid))
 
                                     self._logger.info('Adding new stage %s to parent pipeline: %s'%(completed_stage.uid, 
                                                                                                     pipe.uid))

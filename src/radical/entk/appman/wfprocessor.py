@@ -520,7 +520,7 @@ class WFprocessor(object):
                                                                     try:
 
                                                                         self._logger.info('Executing post-exec for stage %s'%stage.uid)
-                                                                        self._prof.prof('Executing post-exec for stage %s'%stage.uid, uid=self._uid)
+                                                                        self._prof.prof('executing post-exec for stage %s'%stage.uid, uid=self._uid)
 
                                                                         func_condition = stage.post_exec['condition']
                                                                         func_on_true = stage.post_exec['on_true']
@@ -531,7 +531,7 @@ class WFprocessor(object):
                                                                             func_on_false()                     
 
                                                                         self._logger.info('Post-exec executed for stage %s'%stage.uid)                 
-                                                                        self._prof.prof('Post-exec executed for stage %s'%stage.uid, uid=self._uid)
+                                                                        self._prof.prof('post-exec executed for stage %s'%stage.uid, uid=self._uid)
 
                                                                     except Exception, ex:
                                                                         self._logger.exception('Execution failed in post_exec of stage %s'%stage.uid)
