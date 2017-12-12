@@ -431,17 +431,17 @@ class Stage(object):
         Details: This method is to be called before the resource request is placed. Currently, this method is called
         when the parent Pipeline is validated.
         """
-        pass
-        # if self._state is not states.INITIAL:
+        # pass
+        if self._state not in [states.INITIAL, states.SCHEDULING]:
             
-        #     raise ValueError(   object=self._uid, 
-        #                         attribute='state', 
-        #                         expected_value=states.INITIAL,
-        #                         actual_value=self._state)
+            raise ValueError(   obj=self._uid, 
+                                attribute='state', 
+                                expected_value=states.INITIAL,
+                                actual_value=self._state)
 
-        # if self._tasks is None:
+        if self._tasks is None:
 
-        #     raise MissingError( object=self._uid,
-        #                         missing_attribute='tasks')
+            raise MissingError( obj=self._uid,
+                                missing_attribute='tasks')
 
     # ------------------------------------------------------------------------------------------------------------------

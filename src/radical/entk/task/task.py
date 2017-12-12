@@ -606,16 +606,15 @@ class Task(object):
         Purpose: Validate that the state of the task is 'DESCRIBED' and that an executable has been specified for the 
         task. 
         """
-        pass
-        # if self._state is not states.INITIAL:
-        #     raise ValueError(   object=self._uid, 
-        #                         attribute='state', 
-        #                         expected_value=states.INITIAL,
-        #                         actual_value=self._state)
+        if self._state not in [states.INITIAL, states.SCHEDULING]:
+            raise ValueError(   object=self._uid, 
+                                attribute='state', 
+                                expected_value=states.INITIAL,
+                                actual_value=self._state)
 
-        # if self._executable is None:
-        #     raise MissingError( object=self._uid,
-        #                         missing_attribute='executable')
+        if self._executable is None:
+            raise MissingError( object=self._uid,
+                                missing_attribute='executable')
         
     def _replicate(self, original_task):
 

@@ -244,8 +244,6 @@ class WFprocessor(object):
                                     # SCHEDULING
                                     executable_stage = pipe.stages[pipe.current_stage-1]
 
-                                    print 'Enqueur: ', executable_stage.state, executable_stage.uid
-
                                     if executable_stage.state == states.INITIAL:
 
                                         transition( obj=executable_stage, 
@@ -255,8 +253,6 @@ class WFprocessor(object):
                                                     queue = 'enq-to-sync',
                                                     profiler=local_prof, 
                                                     logger=self._logger)
-
-                                    print 'Enqueur: ', executable_stage.state, executable_stage.uid
                                     
                                     executable_tasks = executable_stage.tasks
     
@@ -524,6 +520,7 @@ class WFprocessor(object):
                                                                     try:
 
                                                                         self._logger.info('Executing post-exec for stage %s'%stage.uid)
+                                                                        self._prof.prof('Executing post-exec for stage %s'%stage.uid, uid=self._uid)
 
                                                                         func_condition = stage.post_exec['condition']
                                                                         func_on_true = stage.post_exec['on_true']
@@ -534,6 +531,7 @@ class WFprocessor(object):
                                                                             func_on_false()                     
 
                                                                         self._logger.info('Post-exec executed for stage %s'%stage.uid)                 
+                                                                        self._prof.prof('Post-exec executed for stage %s'%stage.uid, uid=self._uid)
 
                                                                     except Exception, ex:
                                                                         self._logger.exception('Execution failed in post_exec of stage %s'%stage.uid)
