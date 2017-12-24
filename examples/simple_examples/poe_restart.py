@@ -61,7 +61,7 @@ def generate_pipeline():
         # Copy data from the task in the first stage to the current task's location
         t3.copy_input_data = ['$Pipline_%s_Stage_%s_Task_%s/ccount.txt'%(p.uid, s2.uid, s2_task_uids[cnt])]
         # Download the output of the current task to the current location
-        t3.download_output_data = ['chksum.txt > chksum_%s.txt'%cnt]
+        t3.download_output_data = ['chksum.txt > chksum_%s_%s.txt'%(cnt,p.uid)]
 
         # Add the Task to the Stage
         s3.add_tasks(t3)
