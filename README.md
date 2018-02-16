@@ -1,3 +1,1 @@
-# radical.entk-0.6
-
-[![Build Status](https://travis-ci.org/vivek-bala/radical.entk-0.6.svg?branch=master)](https://travis-ci.org/vivek-bala/radical.entk-0.6.svg?branch=master)
+# THIS REPOSITORY IS DEPRECATED. PLEASE USE https://github.com/radical-cybertools/radical.entk FOR DOCUMENTATION, ISSUES AND ANY DEVELOPMENT
